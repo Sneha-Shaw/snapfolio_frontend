@@ -1,9 +1,11 @@
 import { darken, hexToRgba, isLight, lighten, readableOn } from '@/lib/color';
-import type { SiteFont, SiteRadius, SiteTemplate, SiteTheme } from '@/types/models';
+import type { SiteFont, SiteRadius, SiteTheme } from '@/types/models';
 
 export interface ThemePreset extends Required<Omit<SiteTheme, 'preset'>> {
   id: string;
   name: string;
+  /** 'style' presets are mood-driven looks (Retro, Modern…); the rest are grouped by light/dark. */
+  group?: 'style';
 }
 
 /**
@@ -12,6 +14,30 @@ export interface ThemePreset extends Required<Omit<SiteTheme, 'preset'>> {
  * then cleared to 'custom').
  */
 export const THEME_PRESETS: ThemePreset[] = [
+  // Styles
+  { id: 'retro', name: 'Retro', group: 'style', accent: '#e76f51', accentStrong: '#2a9d8f', background: '#f4ecd8', font: 'mono', radius: 'sharp' },
+  { id: 'modern', name: 'Modern', group: 'style', accent: '#6366f1', accentStrong: '#4f46e5', background: '#0a0a0f', font: 'grotesk', radius: 'soft' },
+  { id: 'synthwave', name: 'Synthwave', group: 'style', accent: '#ff2a6d', accentStrong: '#05d9e8', background: '#120322', font: 'grotesk', radius: 'sharp' },
+  { id: 'cyberpunk', name: 'Cyberpunk', group: 'style', accent: '#fcee0a', accentStrong: '#00f0ff', background: '#0d0d12', font: 'mono', radius: 'sharp' },
+  { id: 'vintage', name: 'Vintage', group: 'style', accent: '#8b5e3c', accentStrong: '#6b4226', background: '#efe6d5', font: 'serif', radius: 'rounded' },
+  { id: 'brutalist', name: 'Brutalist', group: 'style', accent: '#ff3b00', accentStrong: '#000000', background: '#ffffff', font: 'mono', radius: 'sharp' },
+  { id: 'luxury', name: 'Luxury', group: 'style', accent: '#d4af37', accentStrong: '#b8912a', background: '#0b0a08', font: 'serif', radius: 'sharp' },
+  { id: 'pastel', name: 'Pastel', group: 'style', accent: '#f472b6', accentStrong: '#a78bfa', background: '#fdf7fb', font: 'grotesk', radius: 'soft' },
+  { id: 'ocean', name: 'Ocean', group: 'style', accent: '#2dd4bf', accentStrong: '#0ea5e9', background: '#04141c', font: 'sans', radius: 'soft' },
+  { id: 'forest', name: 'Forest', group: 'style', accent: '#84cc16', accentStrong: '#65a30d', background: '#0c130b', font: 'serif', radius: 'rounded' },
+  { id: 'coffee', name: 'Coffee', group: 'style', accent: '#d6a36b', accentStrong: '#b7814a', background: '#16100c', font: 'serif', radius: 'rounded' },
+  { id: 'monochrome', name: 'Monochrome', group: 'style', accent: '#e5e5e5', accentStrong: '#ffffff', background: '#0a0a0a', font: 'sans', radius: 'sharp' },
+  { id: 'newspaper', name: 'Newspaper', group: 'style', accent: '#b91c1c', accentStrong: '#7f1d1d', background: '#f7f5ef', font: 'serif', radius: 'sharp' },
+  { id: 'metro', name: 'Metro', group: 'style', accent: '#0078d7', accentStrong: '#005a9e', background: '#1d1d1d', font: 'sans', radius: 'sharp' },
+  { id: 'metro-light', name: 'Metro Light', group: 'style', accent: '#0078d7', accentStrong: '#005a9e', background: '#f2f2f2', font: 'sans', radius: 'sharp' },
+  { id: 'material', name: 'Material', group: 'style', accent: '#6750a4', accentStrong: '#4f378b', background: '#fffbfe', font: 'sans', radius: 'soft' },
+  { id: 'glass', name: 'Glass', group: 'style', accent: '#38bdf8', accentStrong: '#818cf8', background: '#0b1020', font: 'grotesk', radius: 'soft' },
+  { id: 'tokyo-night', name: 'Tokyo Night', group: 'style', accent: '#7aa2f7', accentStrong: '#bb9af7', background: '#1a1b26', font: 'mono', radius: 'rounded' },
+  { id: 'gruvbox', name: 'Gruvbox', group: 'style', accent: '#fabd2f', accentStrong: '#fe8019', background: '#1d2021', font: 'mono', radius: 'sharp' },
+  { id: 'catppuccin', name: 'Catppuccin', group: 'style', accent: '#cba6f7', accentStrong: '#f5c2e7', background: '#1e1e2e', font: 'grotesk', radius: 'soft' },
+  { id: 'solarized', name: 'Solarized', group: 'style', accent: '#268bd2', accentStrong: '#2aa198', background: '#fdf6e3', font: 'mono', radius: 'rounded' },
+  { id: 'sakura', name: 'Sakura', group: 'style', accent: '#e11d74', accentStrong: '#be185d', background: '#fff5f8', font: 'serif', radius: 'soft' },
+  { id: 'arctic', name: 'Arctic', group: 'style', accent: '#0891b2', accentStrong: '#0e7490', background: '#f0f9ff', font: 'grotesk', radius: 'rounded' },
   // Dark
   { id: 'emerald', name: 'Emerald', accent: '#34d399', accentStrong: '#10b981', background: '#08080a', font: 'sans', radius: 'rounded' },
   { id: 'midnight', name: 'Midnight', accent: '#60a5fa', accentStrong: '#3b82f6', background: '#070b14', font: 'sans', radius: 'rounded' },
@@ -56,12 +82,33 @@ export const RADIUS_OPTIONS: { id: SiteRadius; label: string }[] = [
   { id: 'soft', label: 'Soft' },
 ];
 
-export const TEMPLATE_OPTIONS: { id: SiteTemplate; name: string; description: string }[] = [
-  { id: 'aurora', name: 'Aurora', description: 'Animated hero, spotlight effects, 3D cards and a journey timeline.' },
-  { id: 'minimal', name: 'Minimal', description: 'Editorial single column — big type, list-style work, lots of whitespace.' },
-  { id: 'bento', name: 'Bento', description: 'Everything on one screen as a grid of tiles. Dense and scannable.' },
-  { id: 'terminal', name: 'Terminal', description: 'A developer shell — commands, output and a blinking cursor.' },
-];
+export function themeFromPreset(preset: ThemePreset): SiteTheme {
+  const { id, name: _name, group: _group, ...rest } = preset;
+  return { ...rest, preset: id };
+}
+
+/** URL form of a theme for preview links: a preset id, or `accent.strong.bg.font.radius` (hex without #). */
+export function encodeTheme(theme: SiteTheme): string {
+  if (theme.preset && theme.preset !== 'custom' && THEME_PRESETS.some((p) => p.id === theme.preset)) return theme.preset;
+  return [theme.accent, theme.accentStrong, theme.background].map((c) => c.replace('#', '')).concat(theme.font ?? 'sans', theme.radius ?? 'rounded').join('.');
+}
+
+export function decodeTheme(value: string | null): SiteTheme | null {
+  if (!value) return null;
+  const preset = THEME_PRESETS.find((p) => p.id === value);
+  if (preset) return themeFromPreset(preset);
+  const [accent, accentStrong, background, font, radius] = value.split('.');
+  const hex = /^[0-9a-fA-F]{6}$/;
+  if (!accent || !accentStrong || !background || ![accent, accentStrong, background].every((c) => hex.test(c))) return null;
+  return {
+    preset: 'custom',
+    accent: `#${accent}`,
+    accentStrong: `#${accentStrong}`,
+    background: `#${background}`,
+    font: FONT_OPTIONS.some((f) => f.id === font) ? (font as SiteTheme['font']) : 'sans',
+    radius: RADIUS_OPTIONS.some((r) => r.id === radius) ? (radius as SiteTheme['radius']) : 'rounded',
+  };
+}
 
 /**
  * Writes every derived CSS custom property to the document root, so all
@@ -107,7 +154,7 @@ export function applyTheme(theme: SiteTheme) {
     `0 0 0 1px ${hexToRgba(theme.accent, 0.25)}, 0 8px 28px -8px ${hexToRgba(theme.accent, 0.45)}`
   );
 
-  const font = FONT_OPTIONS.find((f) => f.id === theme.font) ?? FONT_OPTIONS[0];
+  const font = FONT_OPTIONS.find((f) => f.id === theme.font) ?? FONT_OPTIONS[0]!;
   root.setProperty('--font-sans', font.stack);
 
   const scale = RADIUS_SCALE[theme.radius ?? 'rounded'];

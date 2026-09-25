@@ -106,15 +106,52 @@ export interface Profile {
   heroTimezone: string;
   aboutText: string;
   focusAreas: string[];
+  services: Service[];
+  testimonials: Testimonial[];
   theme: SiteTheme;
   template: SiteTemplate;
+  layout: LayoutSection[];
   createdAt: string;
   updatedAt: string;
 }
 
 export type SiteFont = 'sans' | 'grotesk' | 'serif' | 'mono';
 export type SiteRadius = 'sharp' | 'rounded' | 'soft';
-export type SiteTemplate = 'aurora' | 'minimal' | 'bento' | 'terminal';
+/** Id of a layout preset (see `LAYOUT_PRESETS`), or 'custom'. */
+export type SiteTemplate = string;
+
+export type SiteSection =
+  | 'hero'
+  | 'about'
+  | 'projects'
+  | 'experience'
+  | 'education'
+  | 'skills'
+  | 'services'
+  | 'stats'
+  | 'testimonials'
+  | 'gallery'
+  | 'contact'
+  | 'divider';
+
+export interface Service {
+  title: string;
+  description: string;
+}
+
+export interface Testimonial {
+  name: string;
+  role: string;
+  company: string;
+  quote: string;
+  avatarUrl: string;
+}
+
+export interface LayoutSection {
+  section: SiteSection;
+  variant: string;
+  enabled: boolean;
+}
 
 export interface SiteTheme {
   preset?: string;

@@ -144,3 +144,23 @@
     box-shadow: var(--shadow-card-hover);
   }
 }
+
+/* Used by the section <Marquee>: two identical copies each slide their own
+   full width, so the loop is seamless regardless of content length. */
+@keyframes marquee-full {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes shimmer-bg {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}

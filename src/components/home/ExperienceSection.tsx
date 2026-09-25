@@ -14,7 +14,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
   const sorted = [...experience].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20">
+    <section className="mx-auto max-w-6xl px-6 py-20">
       <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[var(--color-text-faint)]">
         Where I've worked
       </p>

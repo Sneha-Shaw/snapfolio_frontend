@@ -3,12 +3,14 @@ import toast from 'react-hot-toast';
 import { DynamicStringList } from '@/components/admin/DynamicStringList';
 import { ImageUploader } from '@/components/admin/ImageUploader';
 import { AppearanceSettings } from '@/components/admin/AppearanceSettings';
+import { ServicesEditor, TestimonialsEditor } from '@/components/admin/ContentListEditors';
 import { Button, Card, Input, PageSpinner, Textarea } from '@/components/ui';
 import { useFetch } from '@/hooks/useFetch';
 import { useTheme } from '@/context/ThemeContext';
 import { profileService, type ProfileInput } from '@/services/profile.service';
 import { DEFAULT_THEME } from '@/lib/themes';
-import type { SiteTemplate, SiteTheme } from '@/types/models';
+import { resolveLayout } from '@/components/sections/registry';
+import type { LayoutSection, SiteTemplate, SiteTheme } from '@/types/models';
 
 const EMPTY_FORM: Required<ProfileInput> = {
   name: '',
@@ -25,14 +27,17 @@ const EMPTY_FORM: Required<ProfileInput> = {
   heroTimezone: '',
   aboutText: '',
   focusAreas: [],
+  services: [],
+  testimonials: [],
   theme: DEFAULT_THEME,
   template: 'aurora',
+  layout: resolveLayout([], 'aurora'),
 };
 
 export default function ProfileSettings() {
   const fetcher = useCallback(() => profileService.get(), []);
   const { data: profile, isLoading, refetch } = useFetch(fetcher);
-  const { setTheme, setTemplate } = useTheme();
+  const { setTheme } = useTheme();
 
   const [form, setForm] = useState<Required<ProfileInput>>(EMPTY_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,8 +59,11 @@ export default function ProfileSettings() {
       heroTimezone: profile.heroTimezone,
       aboutText: profile.aboutText,
       focusAreas: profile.focusAreas,
+      services: profile.services ?? [],
+      testimonials: profile.testimonials ?? [],
       theme: { ...DEFAULT_THEME, ...profile.theme },
       template: profile.template ?? 'aurora',
+      layout: resolveLayout(profile.layout, profile.template),
     });
   }, [profile]);
 
@@ -68,16 +76,20 @@ export default function ProfileSettings() {
     setTheme(next); // live-preview across the whole site immediately
   };
 
-  const updateTemplate = (next: SiteTemplate) => {
-    update('template', next);
-    setTemplate(next);
+  const updateLayout = (layout: LayoutSection[], template: SiteTemplate) => {
+    setForm((f) => ({ ...f, layout, template }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await profileService.update(form);
+      await profileService.update({
+        ...form,
+        // Blank rows are drafts — drop them rather than failing validation.
+        services: form.services.filter((s) => s.title.trim()),
+        testimonials: form.testimonials.filter((t) => t.name.trim() && t.quote.trim()),
+      });
       toast.success('Profile updated');
       refetch();
     } catch (err) {
@@ -141,8 +153,9 @@ export default function ProfileSettings() {
         <AppearanceSettings
           theme={form.theme}
           template={form.template}
+          layout={form.layout}
           onThemeChange={updateTheme}
-          onTemplateChange={updateTemplate}
+          onLayoutChange={updateLayout}
         />
 
         <Card className="space-y-4 p-5">
@@ -156,7 +169,11 @@ export default function ProfileSettings() {
           />
         </Card>
 
-        <div className="flex justify-end">
+        <ServicesEditor value={form.services} onChange={(v) => update('services', v)} />
+
+        <TestimonialsEditor value={form.testimonials} onChange={(v) => update('testimonials', v)} />
+
+        <div className="sticky bottom-4 z-10 flex justify-end">
           <Button type="submit" isLoading={isSubmitting}>
             Save changes
           </Button>

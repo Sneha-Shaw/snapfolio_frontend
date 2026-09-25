@@ -1,6 +1,6 @@
 import { api } from './api';
 import type { ApiSuccess } from '@/types/api';
-import type { Profile, SiteTemplate, SiteTheme } from '@/types/models';
+import type { LayoutSection, Profile, Service, SiteTemplate, SiteTheme, Testimonial } from '@/types/models';
 
 export interface ProfileInput {
   name?: string;
@@ -17,8 +17,11 @@ export interface ProfileInput {
   heroTimezone?: string;
   aboutText?: string;
   focusAreas?: string[];
+  services?: Service[];
+  testimonials?: Testimonial[];
   theme?: SiteTheme;
   template?: SiteTemplate;
+  layout?: LayoutSection[];
 }
 
 export const profileService = {

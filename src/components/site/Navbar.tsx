@@ -28,7 +28,7 @@ export function Navbar() {
           : 'border-transparent bg-transparent'
       )}
     >
-      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link to="/" className="font-mono text-sm font-semibold tracking-tight text-[var(--color-text)]">
           arnab<span className="text-[var(--color-accent)]">.dev</span>
         </Link>

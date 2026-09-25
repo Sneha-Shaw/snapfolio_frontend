@@ -15,13 +15,14 @@ const PLATFORM_ICONS: Record<SocialPlatform, ComponentType<{ className?: string 
   other: LinkIcon,
 };
 
-export function Footer() {
+export function Footer({ compact = false }: { compact?: boolean }) {
   const { data: links } = useFetch(() => socialLinkService.list(), []);
   const { data: profile } = useFetch(() => profileService.get(), []);
 
   return (
-    <footer id="contact" className="border-t border-[var(--color-border)]">
-      <div className="mx-auto max-w-5xl px-6 py-16">
+    <footer id={compact ? undefined : 'contact'} className="border-t border-[var(--color-border)]">
+      <div className={compact ? 'mx-auto max-w-6xl px-6 py-2' : 'mx-auto max-w-6xl px-6 py-16'}>
+        {!compact && (
         <div className="flex flex-col items-center gap-10 sm:flex-row sm:items-center sm:justify-between">
           <div className="w-full space-y-3 sm:max-w-md">
             <p className="text-xs font-medium uppercase tracking-widest text-[var(--color-text-faint)]">
@@ -68,7 +69,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col-reverse items-center justify-between gap-4 border-t border-[var(--color-border)] pt-6 text-xs text-[var(--color-text-faint)] sm:flex-row">
+        )}
+
+        <div className={`${compact ? '' : 'mt-16 border-t border-[var(--color-border)]'} flex flex-col-reverse items-center justify-between gap-4 pt-6 pb-4 text-xs text-[var(--color-text-faint)] sm:flex-row`}>
           <p>
             © {new Date().getFullYear()} {profile?.name || 'Arnab Das'}. All rights reserved.
           </p>
