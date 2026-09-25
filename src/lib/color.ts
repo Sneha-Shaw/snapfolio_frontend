@@ -21,7 +21,7 @@ export function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-/** Mixes `hex` toward black by `amount` (0-1) — used to derive raised surfaces on a light base. */
+/** Mixes `hex` toward black by `amount` (0-1) â€” used to derive raised surfaces on a light base. */
 export function darken(hex: string, amount: number): string {
   const [r, g, b] = hexToRgb(hex);
   return rgbToHex(r * (1 - amount), g * (1 - amount), b * (1 - amount));
@@ -40,7 +40,7 @@ export function isLight(hex: string): boolean {
   return luminance(hex) > 0.4;
 }
 
-/** Black or white — whichever reads better on top of `hex`. */
+/** Black or white â€” whichever reads better on top of `hex`. */
 export function readableOn(hex: string): string {
   return luminance(hex) > 0.35 ? '#0a0a0a' : '#ffffff';
 }

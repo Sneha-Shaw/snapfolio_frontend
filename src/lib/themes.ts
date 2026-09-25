@@ -4,8 +4,8 @@ import type { SiteFont, SiteRadius, SiteTheme } from '@/types/models';
 export interface ThemePreset extends Required<Omit<SiteTheme, 'preset'>> {
   id: string;
   name: string;
-  /** 'style' presets are mood-driven looks (Retro, Modern…); the rest are grouped by light/dark. */
-  group?: 'style';
+  /** 'modern' / 'style' presets are mood-driven looks; the rest are grouped by light/dark. */
+  group?: 'style' | 'modern' | 'premium';
 }
 
 /**
@@ -14,6 +14,27 @@ export interface ThemePreset extends Required<Omit<SiteTheme, 'preset'>> {
  * then cleared to 'custom').
  */
 export const THEME_PRESETS: ThemePreset[] = [
+  // Premium
+  { id: 'champagne', name: 'Champagne', group: 'premium', accent: '#e8c98f', accentStrong: '#c9a45c', background: '#0c0a08', font: 'serif', radius: 'soft' },
+  { id: 'sapphire', name: 'Sapphire', group: 'premium', accent: '#7aa7ff', accentStrong: '#3b6cf6', background: '#030712', font: 'grotesk', radius: 'soft' },
+  { id: 'emerald-lux', name: 'Emerald Lux', group: 'premium', accent: '#6ee7b7', accentStrong: '#10b981', background: '#03110c', font: 'grotesk', radius: 'soft' },
+  { id: 'rose-gold', name: 'Rosé Gold', group: 'premium', accent: '#f4b4a4', accentStrong: '#e08b7a', background: '#120c0c', font: 'serif', radius: 'soft' },
+  { id: 'crimson', name: 'Crimson', group: 'premium', accent: '#ff4d4d', accentStrong: '#e11d48', background: '#0a0708', font: 'grotesk', radius: 'rounded' },
+  { id: 'amethyst', name: 'Amethyst', group: 'premium', accent: '#c4b5fd', accentStrong: '#8b5cf6', background: '#07050f', font: 'grotesk', radius: 'soft' },
+  { id: 'platinum', name: 'Platinum', group: 'premium', accent: '#18181b', accentStrong: '#52525b', background: '#f4f4f5', font: 'grotesk', radius: 'soft' },
+  { id: 'ivory', name: 'Ivory', group: 'premium', accent: '#8a6a3b', accentStrong: '#5c4424', background: '#fbf8f1', font: 'serif', radius: 'rounded' },
+
+  // Modern
+  { id: 'indigo-night', name: 'Indigo Night', group: 'modern', accent: '#8b8cf8', accentStrong: '#5e6ad2', background: '#08090a', font: 'grotesk', radius: 'rounded' },
+  { id: 'obsidian', name: 'Obsidian', group: 'modern', accent: '#fafafa', accentStrong: '#d4d4d8', background: '#000000', font: 'sans', radius: 'rounded' },
+  { id: 'borealis', name: 'Borealis', group: 'modern', accent: '#5eead4', accentStrong: '#a78bfa', background: '#050814', font: 'grotesk', radius: 'soft' },
+  { id: 'lime-pop', name: 'Lime Pop', group: 'modern', accent: '#c6f432', accentStrong: '#a3e635', background: '#0a0a0a', font: 'grotesk', radius: 'soft' },
+  { id: 'holo', name: 'Holo', group: 'modern', accent: '#f0abfc', accentStrong: '#67e8f9', background: '#0b0b12', font: 'grotesk', radius: 'soft' },
+  { id: 'coral-dark', name: 'Coral', group: 'modern', accent: '#ff6b6b', accentStrong: '#ff8e53', background: '#0d0d0f', font: 'sans', radius: 'rounded' },
+  { id: 'nova', name: 'Nova', group: 'modern', accent: '#818cf8', accentStrong: '#c084fc', background: '#030014', font: 'grotesk', radius: 'soft' },
+  { id: 'ice', name: 'Ice', group: 'modern', accent: '#0ea5e9', accentStrong: '#6366f1', background: '#f8fafc', font: 'grotesk', radius: 'soft' },
+  { id: 'mono-light', name: 'Mono Light', group: 'modern', accent: '#111111', accentStrong: '#3f3f46', background: '#ffffff', font: 'sans', radius: 'rounded' },
+  { id: 'peach', name: 'Peach', group: 'modern', accent: '#f43f5e', accentStrong: '#f97316', background: '#fff7f2', font: 'grotesk', radius: 'soft' },
   // Styles
   { id: 'retro', name: 'Retro', group: 'style', accent: '#e76f51', accentStrong: '#2a9d8f', background: '#f4ecd8', font: 'mono', radius: 'sharp' },
   { id: 'modern', name: 'Modern', group: 'style', accent: '#6366f1', accentStrong: '#4f46e5', background: '#0a0a0f', font: 'grotesk', radius: 'soft' },

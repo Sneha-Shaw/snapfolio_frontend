@@ -93,7 +93,7 @@
     color: var(--color-on-accent);
   }
 
-  /* The film grain reads as dirt on light backgrounds � tone it way down. */
+  /* The film grain reads as dirt on light backgrounds — tone it way down. */
   html[data-theme-mode='light'] body::before {
     opacity: 0.015;
   }
@@ -163,4 +163,135 @@
   to {
     background-position: 100% 50%;
   }
+}
+
+/* Vertical loop for the 3D testimonial wall — content is duplicated once, so -50% is seamless. */
+@keyframes marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Premium effects (used by the ◆ section designs)
+   ------------------------------------------------------------------------ */
+
+/* Animatable angle so conic gradients can rotate smoothly. */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* A 1px border with a bright arc that travels around the element. */
+@layer components {
+  .conic-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .conic-glow {
+    box-shadow: 0 0 40px -12px var(--color-accent);
+  }
+  .shine-glow {
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, color-mix(in srgb, var(--color-accent) 22%, transparent), transparent 70%);
+  }
+}
+.conic-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0 55%,
+    var(--color-accent) 72%,
+    var(--color-accent-strong) 82%,
+    transparent 95%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin-angle 5s linear infinite;
+}
+.conic-border:hover::before {
+  animation-duration: 2s;
+}
+
+/* Metallic sheen sweeping across text. */
+.shine-text {
+  background: linear-gradient(
+    110deg,
+    var(--color-text) 30%,
+    var(--color-accent) 45%,
+    var(--color-accent-strong) 52%,
+    var(--color-text) 68%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine-sweep 7s linear infinite;
+}
+@keyframes shine-sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+/* Local film grain for premium surfaces. */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Glowing planet-horizon arc along the bottom of a hero. */
+.horizon-glow {
+  position: absolute;
+  left: 50%;
+  width: 220%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  border-top: 1px solid color-mix(in srgb, var(--color-accent) 80%, white);
+  background: radial-gradient(closest-side, var(--color-bg) 96%, transparent);
+  box-shadow:
+    0 -20px 80px -10px color-mix(in srgb, var(--color-accent) 55%, transparent),
+    inset 0 30px 60px -30px color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+
+/* Light themes: soften the premium glows so they read as light, not smudges. */
+html[data-theme-mode='light'] .horizon-glow {
+  border-top-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+  box-shadow:
+    0 -20px 80px -20px color-mix(in srgb, var(--color-accent) 18%, transparent),
+    inset 0 30px 60px -30px color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+html[data-theme-mode='light'] .marker-hl {
+  opacity: 0.14;
+}
+html[data-theme-mode='light'] .conic-glow {
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.18);
+}
+html[data-theme-mode='light'] .shine-glow {
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, color-mix(in srgb, var(--color-accent) 6%, transparent), transparent 70%);
 }

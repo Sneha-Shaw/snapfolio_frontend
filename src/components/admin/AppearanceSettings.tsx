@@ -58,11 +58,21 @@ function PresetCard({
               </span>
             ))}
           </div>
-          {preset.recommended && (
-            <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-black">
-              <Star className="size-2.5 fill-current" /> Best
-            </span>
-          )}
+          <span className="absolute right-2 top-2 flex gap-1">
+            {preset.premium && (
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 px-2 py-0.5 text-[10px] font-bold text-black shadow">
+                Premium ◆
+              </span>
+            )}
+            {preset.modern && !preset.premium && (
+              <span className="inline-flex items-center rounded-full bg-white px-2 py-0.5 text-[10px] font-bold text-black">New ✦</span>
+            )}
+            {preset.recommended && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-400 px-2 py-0.5 text-[10px] font-bold text-black">
+                <Star className="size-2.5 fill-current" /> Best
+              </span>
+            )}
+          </span>
         </div>
         <div className="flex-1 p-3">
           <p className="flex items-center justify-between text-sm font-medium text-[var(--color-text)]">
@@ -276,6 +286,8 @@ export function AppearanceSettings({ theme, template, layout, onThemeChange, onL
 
   const activePreset = theme.preset ?? 'custom';
   const presetGroups = [
+    { label: 'Premium ◆', presets: THEME_PRESETS.filter((p) => p.group === 'premium') },
+    { label: 'Modern ✦', presets: THEME_PRESETS.filter((p) => p.group === 'modern') },
     { label: 'Styles', presets: THEME_PRESETS.filter((p) => p.group === 'style') },
     { label: 'Dark', presets: THEME_PRESETS.filter((p) => !p.group && !isLight(p.background)) },
     { label: 'Light', presets: THEME_PRESETS.filter((p) => !p.group && isLight(p.background)) },

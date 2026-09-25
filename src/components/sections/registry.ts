@@ -12,20 +12,40 @@ import { GALLERY_VARIANTS } from './gallery';
 import { CONTACT_VARIANTS } from './contact';
 import { DIVIDER_VARIANTS } from './divider';
 import { LAYOUT_PRESETS } from './presets';
+import {
+  MODERN_ABOUT,
+  MODERN_CONTACT,
+  MODERN_EXPERIENCE,
+  MODERN_HERO,
+  MODERN_PROJECTS,
+  MODERN_SKILLS,
+  MODERN_STATS,
+  MODERN_TESTIMONIALS,
+} from './modern';
+import {
+  PREMIUM_ABOUT,
+  PREMIUM_CONTACT,
+  PREMIUM_HERO,
+  PREMIUM_PROJECTS,
+  PREMIUM_SERVICES,
+  PREMIUM_SKILLS,
+  PREMIUM_STATS,
+  PREMIUM_TESTIMONIALS,
+} from './premium';
 import type { SectionVariant } from './shared';
 
 export const SECTIONS: { id: SiteSection; label: string; variants: SectionVariant[] }[] = [
-  { id: 'hero', label: 'Hero', variants: HERO_VARIANTS },
-  { id: 'about', label: 'About', variants: ABOUT_VARIANTS },
-  { id: 'projects', label: 'Projects', variants: PROJECTS_VARIANTS },
-  { id: 'experience', label: 'Experience', variants: EXPERIENCE_VARIANTS },
+  { id: 'hero', label: 'Hero', variants: [...PREMIUM_HERO, ...MODERN_HERO, ...HERO_VARIANTS] },
+  { id: 'about', label: 'About', variants: [...PREMIUM_ABOUT, ...MODERN_ABOUT, ...ABOUT_VARIANTS] },
+  { id: 'projects', label: 'Projects', variants: [...PREMIUM_PROJECTS, ...MODERN_PROJECTS, ...PROJECTS_VARIANTS] },
+  { id: 'experience', label: 'Experience', variants: [...MODERN_EXPERIENCE, ...EXPERIENCE_VARIANTS] },
   { id: 'education', label: 'Education', variants: EDUCATION_VARIANTS },
-  { id: 'skills', label: 'Skills', variants: SKILLS_VARIANTS },
-  { id: 'services', label: 'Services', variants: SERVICES_VARIANTS },
-  { id: 'stats', label: 'Stats', variants: STATS_VARIANTS },
-  { id: 'testimonials', label: 'Testimonials', variants: TESTIMONIALS_VARIANTS },
+  { id: 'skills', label: 'Skills', variants: [...PREMIUM_SKILLS, ...MODERN_SKILLS, ...SKILLS_VARIANTS] },
+  { id: 'services', label: 'Services', variants: [...PREMIUM_SERVICES, ...SERVICES_VARIANTS] },
+  { id: 'stats', label: 'Stats', variants: [...PREMIUM_STATS, ...MODERN_STATS, ...STATS_VARIANTS] },
+  { id: 'testimonials', label: 'Testimonials', variants: [...PREMIUM_TESTIMONIALS, ...MODERN_TESTIMONIALS, ...TESTIMONIALS_VARIANTS] },
   { id: 'gallery', label: 'Gallery', variants: GALLERY_VARIANTS },
-  { id: 'contact', label: 'Contact', variants: CONTACT_VARIANTS },
+  { id: 'contact', label: 'Contact', variants: [...PREMIUM_CONTACT, ...MODERN_CONTACT, ...CONTACT_VARIANTS] },
   { id: 'divider', label: 'Divider', variants: DIVIDER_VARIANTS },
 ];
 
@@ -39,7 +59,7 @@ export function variantsFor(section: SiteSection): SectionVariant[] {
 /** Unknown variant ids (e.g. from an older save) fall back to the section's first design. */
 export function getVariant(section: SiteSection, variant: string): SectionVariant | undefined {
   const list = variantsFor(section);
-  return list.find((v) => v.id === variant) ?? list[0];
+  return list.find((v) => v.id === variant) ?? list.find((v) => !v.name.includes('✦') && !v.name.includes('◆')) ?? list[0];
 }
 
 export function presetLayout(presetId: string): LayoutSection[] {
