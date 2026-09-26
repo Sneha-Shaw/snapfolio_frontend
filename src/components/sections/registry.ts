@@ -74,6 +74,18 @@ import {
   SCI_PROJECTS,
   SCI_SKILLS,
   SCI_STATS,
+  SIGNATURE_HERO,
+  SIGNATURE_ABOUT,
+  SIGNATURE_PROJECTS,
+  SIGNATURE_EXPERIENCE,
+  SIGNATURE_EDUCATION,
+  SIGNATURE_SKILLS,
+  SIGNATURE_SERVICES,
+  SIGNATURE_STATS,
+  SIGNATURE_TESTIMONIALS,
+  SIGNATURE_GALLERY,
+  SIGNATURE_CONTACT,
+  SIGNATURE_DIVIDER,
 } from './variantCatalog';
 import type { LayoutSection, SiteSection } from '@/types/models';
 
@@ -101,18 +113,18 @@ const CONCEPT_HERO: SectionVariant[] = [
 ];
 
 export const SECTIONS: { id: SiteSection; label: string; variants: SectionVariant[] }[] = [
-  { id: 'hero', label: 'Hero', variants: [...CONCEPT_HERO, ...PREMIUM_HERO, ...MODERN_HERO, ...NATURE_HERO, ...OBJECT_HERO, ...ENV_HERO, ...WEATHER_HERO, ...MAC_HERO, ...ANALOG_HERO, ...MAKER_HERO, ...SCI_HERO, ...HERO_VARIANTS] },
-  { id: 'about', label: 'About', variants: [...PREMIUM_ABOUT, ...MODERN_ABOUT, ...NATURE_ABOUT, ...OBJECT_ABOUT, ...ENV_ABOUT, ...MAKER_ABOUT, ...ABOUT_VARIANTS, ...KIT_ABOUT] },
-  { id: 'projects', label: 'Projects', variants: [...PREMIUM_PROJECTS, ...MODERN_PROJECTS, ...OBJECT_PROJECTS, ...ENV_PROJECTS, ...WEATHER_PROJECTS, ...MAC_PROJECTS, ...ANALOG_PROJECTS, ...MAKER_PROJECTS, ...SCI_PROJECTS, ...PROJECTS_VARIANTS, ...KIT_PROJECTS] },
-  { id: 'experience', label: 'Experience', variants: [...MODERN_EXPERIENCE, ...NATURE_EXPERIENCE, ...OBJECT_EXPERIENCE, ...ENV_EXPERIENCE, ...ANALOG_EXPERIENCE, ...SCI_EXPERIENCE, ...EXPERIENCE_VARIANTS, ...KIT_EXPERIENCE] },
-  { id: 'education', label: 'Education', variants: [...NATURE_EDUCATION, ...EDUCATION_VARIANTS, ...KIT_EDUCATION] },
-  { id: 'skills', label: 'Skills', variants: [...PREMIUM_SKILLS, ...MODERN_SKILLS, ...NATURE_SKILLS, ...OBJECT_SKILLS, ...ENV_SKILLS, ...WEATHER_SKILLS, ...MAC_SKILLS, ...ANALOG_SKILLS, ...MAKER_SKILLS, ...SCI_SKILLS, ...SKILLS_VARIANTS, ...KIT_SKILLS] },
-  { id: 'services', label: 'Services', variants: [...PREMIUM_SERVICES, ...SERVICES_VARIANTS, ...KIT_SERVICES] },
-  { id: 'stats', label: 'Stats', variants: [...PREMIUM_STATS, ...MODERN_STATS, ...NATURE_STATS, ...OBJECT_STATS, ...ENV_STATS, ...WEATHER_STATS, ...MAKER_STATS, ...SCI_STATS, ...STATS_VARIANTS, ...KIT_STATS] },
-  { id: 'testimonials', label: 'Testimonials', variants: [...PREMIUM_TESTIMONIALS, ...MODERN_TESTIMONIALS, ...OBJECT_TESTIMONIALS, ...ENV_TESTIMONIALS, ...TESTIMONIALS_VARIANTS, ...KIT_TESTIMONIALS] },
-  { id: 'gallery', label: 'Gallery', variants: [...NATURE_GALLERY, ...OBJECT_GALLERY, ...ENV_GALLERY, ...GALLERY_VARIANTS, ...KIT_GALLERY] },
-  { id: 'contact', label: 'Contact', variants: [...PREMIUM_CONTACT, ...MODERN_CONTACT, ...NATURE_CONTACT, ...OBJECT_CONTACT, ...WEATHER_CONTACT, ...CONTACT_VARIANTS, ...KIT_CONTACT] },
-  { id: 'divider', label: 'Divider', variants: DIVIDER_VARIANTS },
+  { id: 'hero', label: 'Hero', variants: [...SIGNATURE_HERO, ...CONCEPT_HERO, ...PREMIUM_HERO, ...MODERN_HERO, ...NATURE_HERO, ...OBJECT_HERO, ...ENV_HERO, ...WEATHER_HERO, ...MAC_HERO, ...ANALOG_HERO, ...MAKER_HERO, ...SCI_HERO, ...HERO_VARIANTS] },
+  { id: 'about', label: 'About', variants: [...SIGNATURE_ABOUT, ...PREMIUM_ABOUT, ...MODERN_ABOUT, ...NATURE_ABOUT, ...OBJECT_ABOUT, ...ENV_ABOUT, ...MAKER_ABOUT, ...ABOUT_VARIANTS, ...KIT_ABOUT] },
+  { id: 'projects', label: 'Projects', variants: [...SIGNATURE_PROJECTS, ...PREMIUM_PROJECTS, ...MODERN_PROJECTS, ...OBJECT_PROJECTS, ...ENV_PROJECTS, ...WEATHER_PROJECTS, ...MAC_PROJECTS, ...ANALOG_PROJECTS, ...MAKER_PROJECTS, ...SCI_PROJECTS, ...PROJECTS_VARIANTS, ...KIT_PROJECTS] },
+  { id: 'experience', label: 'Experience', variants: [...SIGNATURE_EXPERIENCE, ...MODERN_EXPERIENCE, ...NATURE_EXPERIENCE, ...OBJECT_EXPERIENCE, ...ENV_EXPERIENCE, ...ANALOG_EXPERIENCE, ...SCI_EXPERIENCE, ...EXPERIENCE_VARIANTS, ...KIT_EXPERIENCE] },
+  { id: 'education', label: 'Education', variants: [...SIGNATURE_EDUCATION, ...NATURE_EDUCATION, ...EDUCATION_VARIANTS, ...KIT_EDUCATION] },
+  { id: 'skills', label: 'Skills', variants: [...SIGNATURE_SKILLS, ...PREMIUM_SKILLS, ...MODERN_SKILLS, ...NATURE_SKILLS, ...OBJECT_SKILLS, ...ENV_SKILLS, ...WEATHER_SKILLS, ...MAC_SKILLS, ...ANALOG_SKILLS, ...MAKER_SKILLS, ...SCI_SKILLS, ...SKILLS_VARIANTS, ...KIT_SKILLS] },
+  { id: 'services', label: 'Services', variants: [...SIGNATURE_SERVICES, ...PREMIUM_SERVICES, ...SERVICES_VARIANTS, ...KIT_SERVICES] },
+  { id: 'stats', label: 'Stats', variants: [...SIGNATURE_STATS, ...PREMIUM_STATS, ...MODERN_STATS, ...NATURE_STATS, ...OBJECT_STATS, ...ENV_STATS, ...WEATHER_STATS, ...MAKER_STATS, ...SCI_STATS, ...STATS_VARIANTS, ...KIT_STATS] },
+  { id: 'testimonials', label: 'Testimonials', variants: [...SIGNATURE_TESTIMONIALS, ...PREMIUM_TESTIMONIALS, ...MODERN_TESTIMONIALS, ...OBJECT_TESTIMONIALS, ...ENV_TESTIMONIALS, ...TESTIMONIALS_VARIANTS, ...KIT_TESTIMONIALS] },
+  { id: 'gallery', label: 'Gallery', variants: [...SIGNATURE_GALLERY, ...NATURE_GALLERY, ...OBJECT_GALLERY, ...ENV_GALLERY, ...GALLERY_VARIANTS, ...KIT_GALLERY] },
+  { id: 'contact', label: 'Contact', variants: [...SIGNATURE_CONTACT, ...PREMIUM_CONTACT, ...MODERN_CONTACT, ...NATURE_CONTACT, ...OBJECT_CONTACT, ...WEATHER_CONTACT, ...CONTACT_VARIANTS, ...KIT_CONTACT] },
+  { id: 'divider', label: 'Divider', variants: [...SIGNATURE_DIVIDER, ...DIVIDER_VARIANTS] },
 ];
 
 export { LAYOUT_PRESETS };

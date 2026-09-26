@@ -474,3 +474,99 @@ export const SCI_EXPERIENCE: SectionVariant[] = [
 export const SCI_PROJECTS: SectionVariant[] = [
   { ...{"id":"harvest","name":"Crop yield ✺","description":"Work gathered as this season’s yield, each card rooted in soil."}, Component: deferred(() => import('./science'), 'SCI_PROJECTS', "harvest") }
 ];
+
+export const SIGNATURE_HERO: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_HERO', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_HERO', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_HERO', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_HERO', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_HERO', "signature-monograph") }
+];
+
+export const SIGNATURE_ABOUT: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_ABOUT', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_ABOUT', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_ABOUT', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_ABOUT', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_ABOUT', "signature-monograph") }
+];
+
+export const SIGNATURE_PROJECTS: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_PROJECTS', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_PROJECTS', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_PROJECTS', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_PROJECTS', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_PROJECTS', "signature-monograph") }
+];
+
+export const SIGNATURE_EXPERIENCE: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EXPERIENCE', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EXPERIENCE', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EXPERIENCE', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EXPERIENCE', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EXPERIENCE', "signature-monograph") }
+];
+
+export const SIGNATURE_EDUCATION: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EDUCATION', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EDUCATION', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EDUCATION', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EDUCATION', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_EDUCATION', "signature-monograph") }
+];
+
+export const SIGNATURE_SKILLS: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SKILLS', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SKILLS', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SKILLS', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SKILLS', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SKILLS', "signature-monograph") }
+];
+
+export const SIGNATURE_SERVICES: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SERVICES', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SERVICES', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SERVICES', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SERVICES', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_SERVICES', "signature-monograph") }
+];
+
+export const SIGNATURE_STATS: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_STATS', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_STATS', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_STATS', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_STATS', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_STATS', "signature-monograph") }
+];
+
+export const SIGNATURE_TESTIMONIALS: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_TESTIMONIALS', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_TESTIMONIALS', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_TESTIMONIALS', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_TESTIMONIALS', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_TESTIMONIALS', "signature-monograph") }
+];
+
+export const SIGNATURE_GALLERY: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_GALLERY', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_GALLERY', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_GALLERY', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_GALLERY', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_GALLERY', "signature-monograph") }
+];
+
+export const SIGNATURE_CONTACT: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_CONTACT', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_CONTACT', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_CONTACT', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_CONTACT', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_CONTACT', "signature-monograph") }
+];
+
+export const SIGNATURE_DIVIDER: SectionVariant[] = [
+  { ...{"id":"signature-index","name":"Index ✦","description":"A sharply edited ledger — numbered rows, hairline rules, tabular numerals."}, Component: deferred(() => import('./signature'), 'SIGNATURE_DIVIDER', "signature-index") },
+  { ...{"id":"signature-fieldnotes","name":"Fieldnotes ✦","description":"A tactile field journal — tilted note cards, tape tabs, graph-paper grid."}, Component: deferred(() => import('./signature'), 'SIGNATURE_DIVIDER', "signature-fieldnotes") },
+  { ...{"id":"signature-signal","name":"Signal ✦","description":"A high-contrast console — scanlines, monospace readouts, meters, hard edges."}, Component: deferred(() => import('./signature'), 'SIGNATURE_DIVIDER', "signature-signal") },
+  { ...{"id":"signature-atlas","name":"Atlas ✦","description":"An airy cartography — dotted grid, orbiting nodes, generous whitespace."}, Component: deferred(() => import('./signature'), 'SIGNATURE_DIVIDER', "signature-atlas") },
+  { ...{"id":"signature-monograph","name":"Monograph ✦","description":"A quiet printed page — serif voice, big numerals, a narrow column."}, Component: deferred(() => import('./signature'), 'SIGNATURE_DIVIDER', "signature-monograph") }
+];
