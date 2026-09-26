@@ -160,6 +160,8 @@ export interface SiteTheme {
   background: string;
   font?: SiteFont;
   radius?: SiteRadius;
+  /** Footer design id; empty means the active preset's footer, else classic. */
+  footer?: string;
 }
 
 export type SocialPlatform = 'github' | 'linkedin' | 'email' | 'twitter' | 'portfolio' | 'other';

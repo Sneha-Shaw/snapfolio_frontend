@@ -5,8 +5,39 @@ import { Card, Switch } from '@/components/ui';
 import { isLight } from '@/lib/color';
 import { DEFAULT_THEME, FONT_OPTIONS, RADIUS_OPTIONS, THEME_PRESETS, encodeTheme, themeFromPreset, type ThemePreset } from '@/lib/themes';
 import { LAYOUT_PRESETS, SECTIONS, encodeLayout, getVariant, presetLayout, variantsFor, type LayoutPreset } from '@/components/sections/registry';
+import { FOOTER_DESIGNS } from '@/components/site/footers';
 import { cn } from '@/utils/cn';
 import type { LayoutSection, SiteSection, SiteTemplate, SiteTheme } from '@/types/models';
+
+const FAVOURITES_KEY = 'admin:preset-favourites';
+
+function readFavourites(): string[] {
+  try {
+    const raw = localStorage.getItem(FAVOURITES_KEY);
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((v): v is string => typeof v === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Starred presets, remembered per browser. */
+function useFavourites() {
+  const [favourites, setFavourites] = useState<string[]>(readFavourites);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favourites));
+    } catch {
+      /* blocked storage — starring still works for this session */
+    }
+  }, [favourites]);
+
+  const toggle = (id: string) =>
+    setFavourites((list) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]));
+
+  return { favourites, toggle };
+}
 
 interface AppearanceSettingsProps {
   theme: SiteTheme;
@@ -26,8 +57,12 @@ function PresetCard({
   active,
   onApply,
   previewTheme,
+  favourite,
+  onToggleFavourite,
 }: {
   preset: LayoutPreset;
+  favourite: boolean;
+  onToggleFavourite: () => void;
   active: boolean;
   onApply: () => void;
   /** Encoded theme for the preview link — the preset's own, or the current one. */
@@ -37,10 +72,26 @@ function PresetCard({
   return (
     <div
       className={cn(
-        'flex flex-col overflow-hidden rounded-xl border transition-all',
+        'relative flex flex-col overflow-hidden rounded-xl border transition-all',
         active ? 'border-[var(--color-accent)] ring-2 ring-[var(--color-accent)]/30' : 'border-[var(--color-border)] hover:border-[var(--color-border-hover)]'
       )}
     >
+      {/* Sibling of the apply button, not a child of it. */}
+      <button
+        type="button"
+        onClick={onToggleFavourite}
+        aria-pressed={favourite}
+        title={favourite ? 'Remove from favourites' : 'Add to favourites'}
+        className={cn(
+          'absolute left-2 top-2 z-10 grid size-7 place-items-center rounded-full backdrop-blur transition-colors',
+          favourite
+            ? 'bg-amber-400 text-black'
+            : 'bg-black/35 text-white/70 hover:bg-black/55 hover:text-white'
+        )}
+      >
+        <Star className={cn('size-3.5', favourite && 'fill-current')} />
+      </button>
+
       <button type="button" onClick={onApply} className="flex flex-1 flex-col text-left">
         <div className="relative h-20 overflow-hidden p-3" style={{ background: theme?.background }}>
           <div className="absolute -right-4 -top-6 size-20 rounded-full opacity-60 blur-xl" style={{ background: theme?.accent }} />
@@ -79,6 +130,11 @@ function PresetCard({
             {preset.name}
             {active && <Check className="size-4 text-[var(--color-accent)]" />}
           </p>
+          {(preset.profession || preset.concept) && (
+            <p className="mt-1 text-[11px] font-medium text-[var(--color-accent)]">
+              {preset.profession ?? preset.concept}
+            </p>
+          )}
           <p className="mt-1 text-xs text-[var(--color-text-faint)]">{preset.description}</p>
         </div>
       </button>
@@ -252,7 +308,16 @@ function Segmented<T extends string>({
 
 // ---------------------------------------------------------------------------
 
-export function AppearanceSettings({ theme, template, layout, onThemeChange, onLayoutChange }: AppearanceSettingsProps) {
+export function AppearanceSettings({
+  theme,
+  template,
+  layout,
+  onThemeChange: setThemeRaw,
+  onLayoutChange,
+}: AppearanceSettingsProps) {
+  // Every theme preset replaces the whole theme object, which would silently
+  // drop the footer choice. Carry it across unless the caller sets one.
+  const onThemeChange = (next: SiteTheme) => setThemeRaw({ ...next, footer: next.footer ?? theme.footer });
   const [adding, setAdding] = useState(false);
 
   // "Also apply matching theme" reflects the real state: with a layout preset
@@ -284,19 +349,51 @@ export function AppearanceSettings({ theme, template, layout, onThemeChange, onL
     }
   };
 
+  const { favourites, toggle: toggleFavourite } = useFavourites();
   const activePreset = theme.preset ?? 'custom';
   const presetGroups = [
     { label: 'Premium ◆', presets: THEME_PRESETS.filter((p) => p.group === 'premium') },
     { label: 'Modern ✦', presets: THEME_PRESETS.filter((p) => p.group === 'modern') },
+    { label: 'Professions', presets: THEME_PRESETS.filter((p) => p.group === 'profession') },
+    { label: 'Concepts ✺', presets: THEME_PRESETS.filter((p) => p.group === 'concept') },
     { label: 'Styles', presets: THEME_PRESETS.filter((p) => p.group === 'style') },
     { label: 'Dark', presets: THEME_PRESETS.filter((p) => !p.group && !isLight(p.background)) },
     { label: 'Light', presets: THEME_PRESETS.filter((p) => !p.group && isLight(p.background)) },
   ];
 
+  // Profession presets are listed first and separately: picking by trade is a
+  // faster route to a finished site than picking by mood.
+  const favouriteSet = new Set(favourites);
+  const presetSections = [
+    {
+      label: 'Favourites ★',
+      hint: 'the ones you starred',
+      presets: LAYOUT_PRESETS.filter((p) => favouriteSet.has(p.id)),
+    },
+    {
+      label: 'By profession',
+      hint: 'built for a specific line of work',
+      presets: LAYOUT_PRESETS.filter((p) => p.profession),
+    },
+    {
+      label: 'By concept ✺',
+      hint: 'a whole page built around one motif',
+      presets: LAYOUT_PRESETS.filter((p) => p.concept),
+    },
+    {
+      label: 'By style',
+      hint: 'mood-driven looks you can pair with any trade',
+      presets: LAYOUT_PRESETS.filter((p) => !p.profession && !p.concept),
+    },
+  ].filter((g) => g.presets.length > 0);
+
   const applyLayoutPreset = (preset: LayoutPreset) => {
     onLayoutChange(presetLayout(preset.id), preset.id);
     const matching = THEME_PRESETS.find((t) => t.id === preset.theme);
-    if (withTheme && matching) onThemeChange(themeFromPreset(matching));
+    // A preset's footer is part of its design, so it comes along either way.
+    const footer = preset.footer ?? theme.footer;
+    if (withTheme && matching) setThemeRaw({ ...themeFromPreset(matching), footer });
+    else if (footer !== theme.footer) setThemeRaw({ ...theme, footer });
   };
 
   // Any hand edit to the section list makes the layout 'custom'.
@@ -324,7 +421,7 @@ export function AppearanceSettings({ theme, template, layout, onThemeChange, onL
           <div>
             <h2 className="text-sm font-semibold text-[var(--color-text)]">Design presets</h2>
             <p className="mt-1 max-w-xl text-xs text-[var(--color-text-faint)]">
-              Ready-made combinations of section designs. Pick one as a starting point, then mix and match below. Presets marked <b>Best</b> are the most polished.
+              Ready-made combinations of section designs. Pick one as a starting point, then mix and match below. Presets marked <b>Best</b> are the most polished — tap the ☆ on any card to keep it in <b>Favourites</b> at the top.
             </p>
           </div>
           <div className="flex flex-col items-start gap-1 sm:items-end">
@@ -340,17 +437,27 @@ export function AppearanceSettings({ theme, template, layout, onThemeChange, onL
             </span>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {LAYOUT_PRESETS.map((p) => (
-            <PresetCard
-              key={p.id}
-              preset={p}
-              active={template === p.id}
-              onApply={() => applyLayoutPreset(p)}
-              previewTheme={withTheme ? p.theme : encodeTheme(theme)}
-            />
-          ))}
-        </div>
+        {presetSections.map((group) => (
+          <div key={group.label} className="space-y-2">
+            <div className="flex items-baseline gap-2">
+              <p className="text-xs font-medium uppercase tracking-widest text-[var(--color-text-faint)]">{group.label}</p>
+              <span className="text-[11px] text-[var(--color-text-faint)]">{group.hint}</span>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {group.presets.map((p) => (
+                <PresetCard
+                  key={p.id}
+                  preset={p}
+                  active={template === p.id}
+                  onApply={() => applyLayoutPreset(p)}
+                  previewTheme={withTheme ? p.theme : encodeTheme(theme)}
+                  favourite={favouriteSet.has(p.id)}
+                  onToggleFavourite={() => toggleFavourite(p.id)}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
       </Card>
 
       {/* ---- Section builder ---- */}
@@ -411,6 +518,58 @@ export function AppearanceSettings({ theme, template, layout, onThemeChange, onL
             className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-[var(--color-border-hover)] py-3 text-sm text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
           >
             <Plus className="size-4" /> Add section
+          </button>
+        )}
+      </Card>
+
+      {/* ---- Footer ---- */}
+      <Card className="space-y-4 p-5">
+        <div>
+          <h3 className="font-medium text-[var(--color-text)]">Footer</h3>
+          <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+            The closing statement every page shares. Presets pick one for you; choose here to override it.
+            <b> Motif ✺</b> builds the footer from the active concept preset&apos;s material.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {FOOTER_DESIGNS.map((f) => {
+            const active = (theme.footer || '') === f.id;
+            return (
+              <div
+                key={f.id}
+                className={cn(
+                  'flex flex-col rounded-xl border p-3 transition-all',
+                  active
+                    ? 'border-[var(--color-accent)] ring-2 ring-[var(--color-accent)]/30'
+                    : 'border-[var(--color-border)] hover:border-[var(--color-border-hover)]'
+                )}
+              >
+                <button type="button" onClick={() => setThemeRaw({ ...theme, footer: f.id })} className="flex-1 text-left">
+                  <p className="flex items-center gap-2 text-sm font-medium text-[var(--color-text)]">
+                    {f.name}
+                    {active && <Check className="size-3.5 text-[var(--color-accent)]" />}
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--color-text-muted)]">{f.description}</p>
+                </button>
+                <a
+                  href={`/?template=${encodeURIComponent(template)}&footer=${f.id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex items-center gap-1 text-xs text-[var(--color-text-faint)] hover:text-[var(--color-accent)]"
+                >
+                  Preview <ExternalLink className="size-3" />
+                </a>
+              </div>
+            );
+          })}
+        </div>
+        {theme.footer && (
+          <button
+            type="button"
+            onClick={() => setThemeRaw({ ...theme, footer: '' })}
+            className="inline-flex items-center gap-1.5 text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
+          >
+            <RotateCcw className="size-3" /> Use the preset&apos;s footer
           </button>
         )}
       </Card>

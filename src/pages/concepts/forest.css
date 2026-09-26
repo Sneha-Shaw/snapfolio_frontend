@@ -1,0 +1,405 @@
+/* =============================================================================
+   FOREST — a standalone flagship concept experience.
+
+   This is deliberately NOT built from the site's shared theme tokens or the
+   swappable section registry. Those exist so any hero can pair with any
+   about/skills/contact; this page is the opposite bet — one concept, one
+   authored world, every section reachable only from this page. Everything
+   below is scoped under `.forest-page` so it can never leak into, or be
+   affected by, the rest of the site.
+
+   THE TEST THIS FILE IS WRITTEN AGAINST: if you deleted every green and every
+   amber below and replaced them with grayscale, would this still read as a
+   forest? The answer has to come from composition — the winding path, the
+   trunk cross-section, the four-layer treeline parallax, the seed→bloom
+   progression — not from the palette. Color is the last coat, not the idea.
+   ============================================================================= */
+
+.forest-page {
+  /* ---------------------------------------------------------------------
+     DESIGN SYSTEM — tokens local to this page.
+     --------------------------------------------------------------------- */
+
+  /* Ground: near-black, slightly warm (never a neutral gray — a forest
+     floor at dusk leans brown-green, not charcoal). Four steps of depth,
+     the same idea as the site's --color-bg-elevated ladder but re-tuned. */
+  --forest-void: #05070a;
+  --forest-deep: #090c09;
+  --forest-surface: #0e130e;
+  --forest-elevated: #141b13;
+  --forest-elevated-2: #1b241a;
+
+  /* Ink: warm off-white, like paper under low canopy light — pure white
+     would read as a screen, not a place. */
+  --forest-ink: #f0f2e9;
+  --forest-ink-muted: #b7c2ae;
+  --forest-ink-faint: #79866f;
+  --forest-rule: rgba(226, 232, 216, 0.1);
+
+  /* Moss is the structural color (bark, foliage, ground); amber is the one
+     warm accent (filtered sunlight) and is rationed to CTAs, the compass
+     mark, and light shafts — never a UI-chrome color. */
+  --forest-moss: #7fa565;
+  --forest-moss-deep: #3f5c37;
+  --forest-moss-soft: rgba(127, 165, 101, 0.14);
+  --forest-amber: #dba847;
+  --forest-amber-deep: #a9741f;
+  --forest-bark: #4a3423;
+
+  /* Typography: an editorial serif carries the voice (Fraunces, already
+     loaded site-wide for the 'serif' theme option); everything functional
+     — labels, coordinates, dates — runs in mono, small and tracked wide,
+     like a field notebook's margin notes. */
+  --forest-display: 'Fraunces', ui-serif, Georgia, serif;
+  --forest-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --forest-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Motion: three speeds, never one generic `all 0.3s ease`. Fast is a
+     press; medium is a reveal settling like a leaf coming to rest; slow is
+     weather — wind, drifting spores, light moving — and every slow loop
+     below uses a different duration so nothing beats in sync. */
+  --forest-ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --forest-ease-sway: cubic-bezier(0.45, 0, 0.55, 1);
+
+  background: var(--forest-void);
+  color: var(--forest-ink);
+  font-family: var(--forest-body);
+  overflow-x: clip;
+}
+
+.forest-page ::selection {
+  background: var(--forest-moss);
+  color: var(--forest-void);
+}
+
+.forest-serif {
+  font-family: var(--forest-display);
+}
+
+.forest-mono {
+  font-family: var(--forest-mono);
+}
+
+/* A field-note label: small, tracked, mono, muted — the recurring "margin
+   annotation" voice used for eyebrows, dates and coordinates throughout. */
+.forest-label {
+  font-family: var(--forest-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--forest-ink-faint);
+}
+
+/* -----------------------------------------------------------------------
+   ATMOSPHERE — the layered depth every section is built inside of.
+   ----------------------------------------------------------------------- */
+
+@keyframes forest-drift-a {
+  0%,
+  100% {
+    transform: translate3d(-3%, 0, 0);
+  }
+  50% {
+    transform: translate3d(3%, -1.5%, 0);
+  }
+}
+@keyframes forest-drift-b {
+  0%,
+  100% {
+    transform: translate3d(2%, 0, 0);
+  }
+  50% {
+    transform: translate3d(-4%, 1%, 0);
+  }
+}
+@keyframes forest-sway {
+  0%,
+  100% {
+    transform: rotate(-0.7deg);
+  }
+  50% {
+    transform: rotate(0.7deg);
+  }
+}
+@keyframes forest-rise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.5;
+  }
+  85% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(var(--spore-drift, 14px));
+    opacity: 0;
+  }
+}
+@keyframes forest-shaft-drift {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(1.5%);
+  }
+}
+
+/* One repeating triangle silhouette = one treeline. Four of these, stacked
+   with different scale/blur/opacity/speed, is what makes the canopy read as
+   distance rather than as a single flat backdrop — the same principle a
+   matte painter uses for a tree line, done in gradients. */
+.forest-treeline {
+  background-image: repeating-linear-gradient(
+      to right,
+      transparent 0 11px,
+      currentColor 11px 12px,
+      transparent 12px 23px
+    ),
+    repeating-conic-gradient(from 135deg at 50% 100%, currentColor 0deg 22deg, transparent 22deg 90deg);
+  background-size:
+    23px 100%,
+    46px 100%;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  -webkit-mask-image: linear-gradient(to top, #000 60%, transparent);
+  mask-image: linear-gradient(to top, #000 60%, transparent);
+}
+
+.forest-mist {
+  background: radial-gradient(ellipse 55% 70% at 50% 100%, rgba(210, 224, 200, 0.09), transparent 70%);
+  filter: blur(24px);
+}
+
+.forest-shaft {
+  background: linear-gradient(to bottom, rgba(219, 168, 71, 0.22), transparent 82%);
+  filter: blur(6px);
+  clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+}
+
+.forest-spore {
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(240, 242, 233, 0.8), rgba(219, 168, 71, 0.3) 60%, transparent 75%);
+}
+
+.forest-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.forest-vignette {
+  background: radial-gradient(ellipse 80% 70% at 50% 40%, transparent 45%, rgba(3, 5, 3, 0.55));
+}
+
+/* -----------------------------------------------------------------------
+   ARRIVAL — hero
+   ----------------------------------------------------------------------- */
+
+.forest-arrival-sky {
+  background: radial-gradient(ellipse 90% 60% at 50% -10%, #1c2416, var(--forest-void) 65%);
+}
+
+.forest-compass {
+  border: 1px solid var(--forest-rule);
+  background: rgba(14, 19, 14, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+/* -----------------------------------------------------------------------
+   THE CLEARING — concept intro / story
+   ----------------------------------------------------------------------- */
+
+.forest-portrait-mask {
+  -webkit-mask-image: radial-gradient(ellipse 78% 82% at 50% 42%, #000 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 78% 82% at 50% 42%, #000 60%, transparent 100%);
+  filter: sepia(0.24) saturate(1.05) hue-rotate(52deg) brightness(0.92) contrast(1.05);
+}
+
+.forest-clearing::first-letter {
+  float: left;
+  font-family: var(--forest-display);
+  font-size: 3.6em;
+  line-height: 0.82;
+  padding: 0.03em 0.08em 0 0;
+  color: var(--forest-amber);
+  font-weight: 600;
+}
+
+.forest-specimen {
+  border-left: 2px solid var(--forest-moss-deep);
+}
+
+/* -----------------------------------------------------------------------
+   DISCOVERIES — project explorer, laid out as a path with sightings
+   ----------------------------------------------------------------------- */
+
+.forest-path-track {
+  background: linear-gradient(90deg, transparent, var(--forest-rule) 20%, var(--forest-rule) 80%, transparent);
+}
+
+/* A sighting card: a torn/organic photo edge, not a rectangle — a rough
+   quadrilateral clip is enough to break the "stock card" silhouette. */
+.forest-sighting {
+  clip-path: polygon(1.5% 3%, 98% 0%, 100% 97%, 2% 100%);
+  background: var(--forest-elevated);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+}
+
+.forest-sighting-pin {
+  background: var(--forest-amber);
+  box-shadow: 0 0 0 4px var(--forest-deep), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* -----------------------------------------------------------------------
+   CLOSER LOOK — single case-study spotlight
+   ----------------------------------------------------------------------- */
+
+.forest-root-line {
+  stroke: var(--forest-moss-deep);
+  stroke-width: 1.5;
+}
+
+/* -----------------------------------------------------------------------
+   THE GROVE — skills, clustered as organic patches rather than a grid
+   ----------------------------------------------------------------------- */
+
+.forest-clearing-patch {
+  border-radius: 44% 56% 61% 39% / 55% 45% 58% 42%;
+  background: radial-gradient(ellipse 90% 90% at 32% 26%, var(--forest-elevated-2), var(--forest-elevated) 70%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    0 20px 40px -22px rgba(0, 0, 0, 0.65);
+}
+
+.forest-signpost {
+  position: relative;
+}
+
+.forest-signpost::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 2px;
+  height: 0.85rem;
+  background: var(--forest-bark);
+  translate: -50% 0;
+}
+
+.forest-leaf-chip {
+  border-radius: 62% 38% 55% 45% / 48% 55% 45% 52%;
+  background: var(--forest-moss-soft);
+  border: 1px solid rgba(127, 165, 101, 0.35);
+  transition:
+    transform 0.25s var(--forest-ease-settle),
+    background 0.25s var(--forest-ease-settle);
+}
+
+.forest-leaf-chip:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: rgba(127, 165, 101, 0.28);
+}
+
+/* -----------------------------------------------------------------------
+   RINGS — a trunk cross-section standing in for the experience timeline
+   ----------------------------------------------------------------------- */
+
+.forest-trunk-face {
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(255, 255, 255, 0.05), transparent 55%),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(234, 224, 196, 0.05) 0 3px,
+      rgba(74, 52, 35, 0.4) 3px 4px,
+      rgba(120, 90, 55, 0.22) 4px 15px
+    ),
+    radial-gradient(circle at 50% 50%, #6b4a30, #3a2818 82%);
+  box-shadow:
+    inset 0 0 60px 20px rgba(0, 0, 0, 0.55),
+    0 30px 60px -24px rgba(0, 0, 0, 0.8);
+}
+
+.forest-ring-mark {
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  transition:
+    border-color 0.3s var(--forest-ease-settle),
+    transform 0.3s var(--forest-ease-settle);
+}
+
+.forest-ring-mark[data-active='true'] {
+  border-color: var(--forest-amber);
+}
+
+.forest-ring-pith {
+  border-radius: 9999px;
+  background: radial-gradient(circle at 40% 35%, #d9c8a3, #7a5a34 70%);
+  box-shadow: 0 0 24px 4px rgba(217, 168, 71, 0.35);
+}
+
+/* -----------------------------------------------------------------------
+   PHILOSOPHY — seed to bloom progression
+   ----------------------------------------------------------------------- */
+
+.forest-vine-path {
+  stroke: var(--forest-moss-deep);
+  stroke-width: 2;
+  fill: none;
+}
+
+.forest-plaque {
+  background: linear-gradient(155deg, var(--forest-elevated-2), var(--forest-elevated));
+  border: 1px solid var(--forest-rule);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* -----------------------------------------------------------------------
+   PLAYGROUND — cursor-reactive light
+   ----------------------------------------------------------------------- */
+
+.forest-playground {
+  background: radial-gradient(circle at var(--light-x, 50%) var(--light-y, 40%), rgba(219, 168, 71, 0.16), transparent 45%),
+    var(--forest-deep);
+}
+
+.forest-playground-shaft {
+  background: linear-gradient(to bottom, rgba(219, 168, 71, 0.5), transparent 85%);
+  filter: blur(3px);
+  transition: transform 0.4s var(--forest-ease-sway);
+}
+
+/* -----------------------------------------------------------------------
+   EXIT — contact experience: the treeline parts and the sky opens
+   ----------------------------------------------------------------------- */
+
+.forest-exit-sky {
+  background: radial-gradient(ellipse 90% 100% at 50% 100%, #3a2f16, var(--forest-void) 70%);
+}
+
+.forest-trailboard {
+  background: linear-gradient(160deg, var(--forest-elevated-2), var(--forest-surface));
+  border: 1px solid var(--forest-rule);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.75);
+}
+
+/* -----------------------------------------------------------------------
+   Reduced motion: every ambient loop and settle-in becomes a instant/static
+   state rather than fighting the user's OS preference.
+   ----------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .forest-page * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

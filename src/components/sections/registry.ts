@@ -32,20 +32,74 @@ import {
   PREMIUM_STATS,
   PREMIUM_TESTIMONIALS,
 } from './premium';
+import {
+  NATURE_ABOUT,
+  NATURE_CONTACT,
+  NATURE_EDUCATION,
+  NATURE_EXPERIENCE,
+  NATURE_GALLERY,
+  NATURE_HERO,
+  NATURE_SKILLS,
+  NATURE_STATS,
+} from './nature';
+import {
+  OBJECT_ABOUT,
+  OBJECT_CONTACT,
+  OBJECT_EXPERIENCE,
+  OBJECT_GALLERY,
+  OBJECT_HERO,
+  OBJECT_PROJECTS,
+  OBJECT_SKILLS,
+  OBJECT_STATS,
+  OBJECT_TESTIMONIALS,
+} from './objects';
+import {
+  ENV_ABOUT,
+  ENV_EXPERIENCE,
+  ENV_GALLERY,
+  ENV_HERO,
+  ENV_PROJECTS,
+  ENV_SKILLS,
+  ENV_STATS,
+  ENV_TESTIMONIALS,
+} from './environments';
+import {
+  WEATHER_CONTACT,
+  WEATHER_HERO,
+  WEATHER_PROJECTS,
+  WEATHER_SKILLS,
+  WEATHER_STATS,
+} from './weather';
+import { MAC_HERO, MAC_PROJECTS, MAC_SKILLS } from './macbook';
+import { ANALOG_EXPERIENCE, ANALOG_HERO, ANALOG_PROJECTS, ANALOG_SKILLS } from './analog';
+import { MAKER_ABOUT, MAKER_HERO, MAKER_PROJECTS, MAKER_SKILLS, MAKER_STATS } from './makers';
+import { SCI_EXPERIENCE, SCI_HERO, SCI_PROJECTS, SCI_SKILLS, SCI_STATS } from './science';
+import {
+  KIT_ABOUT,
+  KIT_CONTACT,
+  KIT_EDUCATION,
+  KIT_EXPERIENCE,
+  KIT_GALLERY,
+  KIT_PROJECTS,
+  KIT_SERVICES,
+  KIT_SKILLS,
+  KIT_STATS,
+  KIT_TESTIMONIALS,
+} from './kits';
 import type { SectionVariant } from './shared';
 
 export const SECTIONS: { id: SiteSection; label: string; variants: SectionVariant[] }[] = [
-  { id: 'hero', label: 'Hero', variants: [...PREMIUM_HERO, ...MODERN_HERO, ...HERO_VARIANTS] },
-  { id: 'about', label: 'About', variants: [...PREMIUM_ABOUT, ...MODERN_ABOUT, ...ABOUT_VARIANTS] },
-  { id: 'projects', label: 'Projects', variants: [...PREMIUM_PROJECTS, ...MODERN_PROJECTS, ...PROJECTS_VARIANTS] },
-  { id: 'experience', label: 'Experience', variants: [...MODERN_EXPERIENCE, ...EXPERIENCE_VARIANTS] },
-  { id: 'education', label: 'Education', variants: EDUCATION_VARIANTS },
-  { id: 'skills', label: 'Skills', variants: [...PREMIUM_SKILLS, ...MODERN_SKILLS, ...SKILLS_VARIANTS] },
-  { id: 'services', label: 'Services', variants: [...PREMIUM_SERVICES, ...SERVICES_VARIANTS] },
-  { id: 'stats', label: 'Stats', variants: [...PREMIUM_STATS, ...MODERN_STATS, ...STATS_VARIANTS] },
-  { id: 'testimonials', label: 'Testimonials', variants: [...PREMIUM_TESTIMONIALS, ...MODERN_TESTIMONIALS, ...TESTIMONIALS_VARIANTS] },
-  { id: 'gallery', label: 'Gallery', variants: GALLERY_VARIANTS },
-  { id: 'contact', label: 'Contact', variants: [...PREMIUM_CONTACT, ...MODERN_CONTACT, ...CONTACT_VARIANTS] },
+  { id: 'hero', label: 'Hero', variants: [...PREMIUM_HERO, ...MODERN_HERO, ...NATURE_HERO, ...OBJECT_HERO, ...ENV_HERO, ...WEATHER_HERO, ...MAC_HERO, ...ANALOG_HERO, ...MAKER_HERO, ...SCI_HERO, ...HERO_VARIANTS] },
+  { id: 'about', label: 'About', variants: [...PREMIUM_ABOUT, ...MODERN_ABOUT, ...NATURE_ABOUT, ...OBJECT_ABOUT, ...ENV_ABOUT, ...MAKER_ABOUT, ...ABOUT_VARIANTS, ...KIT_ABOUT] },
+  { id: 'projects', label: 'Projects', variants: [...PREMIUM_PROJECTS, ...MODERN_PROJECTS, ...OBJECT_PROJECTS, ...ENV_PROJECTS, ...WEATHER_PROJECTS, ...MAC_PROJECTS, ...ANALOG_PROJECTS, ...MAKER_PROJECTS, ...SCI_PROJECTS, ...PROJECTS_VARIANTS, ...KIT_PROJECTS] },
+  { id: 'experience', label: 'Experience', variants: [...MODERN_EXPERIENCE, ...NATURE_EXPERIENCE, ...OBJECT_EXPERIENCE, ...ENV_EXPERIENCE, ...ANALOG_EXPERIENCE, ...SCI_EXPERIENCE, ...EXPERIENCE_VARIANTS, ...KIT_EXPERIENCE] },
+  { id: 'education', label: 'Education', variants: [...NATURE_EDUCATION, ...EDUCATION_VARIANTS, ...KIT_EDUCATION] },
+  { id: 'skills', label: 'Skills', variants: [...PREMIUM_SKILLS, ...MODERN_SKILLS, ...NATURE_SKILLS, ...OBJECT_SKILLS, ...ENV_SKILLS, ...WEATHER_SKILLS, ...MAC_SKILLS, ...ANALOG_SKILLS, ...MAKER_SKILLS, ...SCI_SKILLS, ...SKILLS_VARIANTS, ...KIT_SKILLS] },
+  { id: 'services', label: 'Services', variants: [...PREMIUM_SERVICES, ...SERVICES_VARIANTS, ...KIT_SERVICES] },
+  { id: 'stats', label: 'Stats', variants: [...PREMIUM_STATS, ...MODERN_STATS, ...NATURE_STATS, ...OBJECT_STATS, ...ENV_STATS, ...WEATHER_STATS, ...MAKER_STATS, ...SCI_STATS, ...STATS_VARIANTS, ...KIT_STATS] },
+  { id: 'testimonials', label: 'Testimonials', variants: [...PREMIUM_TESTIMONIALS, ...MODERN_TESTIMONIALS, ...OBJECT_TESTIMONIALS, ...ENV_TESTIMONIALS, ...TESTIMONIALS_VARIANTS, ...KIT_TESTIMONIALS] },
+  { id: 'gallery', label: 'Gallery', variants: [...NATURE_GALLERY, ...OBJECT_GALLERY, ...ENV_GALLERY, ...GALLERY_VARIANTS, ...KIT_GALLERY] },
+  { id: 'contact', label: 'Contact', variants: [...PREMIUM_CONTACT, ...MODERN_CONTACT, ...NATURE_CONTACT, ...OBJECT_CONTACT, ...WEATHER_CONTACT, ...CONTACT_VARIANTS, ...KIT_CONTACT] },
   { id: 'divider', label: 'Divider', variants: DIVIDER_VARIANTS },
 ];
 
@@ -56,10 +110,13 @@ export function variantsFor(section: SiteSection): SectionVariant[] {
   return SECTIONS.find((s) => s.id === section)?.variants ?? [];
 }
 
-/** Unknown variant ids (e.g. from an older save) fall back to the section's first design. */
+/** Markers for the promoted design families, which are listed before the plain ones. */
+const PROMOTED = ['✦', '◆', '✺'];
+
+/** Unknown variant ids (e.g. from an older save) fall back to the section's first plain design. */
 export function getVariant(section: SiteSection, variant: string): SectionVariant | undefined {
   const list = variantsFor(section);
-  return list.find((v) => v.id === variant) ?? list.find((v) => !v.name.includes('✦') && !v.name.includes('◆')) ?? list[0];
+  return list.find((v) => v.id === variant) ?? list.find((v) => !PROMOTED.some((mark) => v.name.includes(mark))) ?? list[0];
 }
 
 export function presetLayout(presetId: string): LayoutSection[] {
