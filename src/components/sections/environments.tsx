@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { ConceptSection } from './conceptScenes';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
@@ -14,7 +15,6 @@ import {
   Section,
   cardClass,
   galleryOf,
-  groupTech,
   newestFirst,
   pickProjects,
   statementLines,
@@ -209,45 +209,8 @@ function ProjectsDepth({ projects, projectsLoading }: SectionProps) {
   );
 }
 
-function SkillsBubbles({ technologies }: SectionProps) {
-  const groups = groupTech(technologies);
-  if (groups.length === 0) return null;
-
-  return (
-    <section id="skills" className="relative overflow-hidden">
-      <div className="sea-depth pointer-events-none absolute inset-0 opacity-70" aria-hidden />
-      <Section>
-        <Heading eyebrow="Stack" title="Surfacing" align="center" />
-        <div className="space-y-7">
-          {groups.map((group, gi) => (
-            <div key={group.cat}>
-              <p className="mb-3 text-center text-[10px] font-semibold uppercase tracking-[0.25em] text-[var(--color-text-faint)]">
-                {group.label}
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {group.items.map((tech, ti) => {
-                  const size = 4.5 + seeded(gi * 20 + ti) * 2.5;
-                  return (
-                    <motion.span
-                      key={tech._id}
-                      initial={{ opacity: 0, y: 24, scale: 0.6 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      viewport={{ once: true, margin: '-40px' }}
-                      transition={{ duration: 0.6, delay: gi * 0.07 + ti * 0.04, ease: [0.34, 1.56, 0.64, 1] }}
-                      className="bubble grid place-items-center text-center text-[10px] font-medium leading-tight text-[var(--color-text)] sm:text-xs"
-                      style={{ width: `${size}rem`, height: `${size}rem` }}
-                    >
-                      <span className="px-1">{tech.name}</span>
-                    </motion.span>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Section>
-    </section>
-  );
+function SkillsBubbles(props: SectionProps) {
+  return <ConceptSection {...props} motif="abyss" section="skills" />;
 }
 
 // ---------------------------------------------------------------------------
@@ -919,7 +882,7 @@ export const ENV_PROJECTS: SectionVariant[] = [
 ];
 
 export const ENV_SKILLS: SectionVariant[] = [
-  { id: 'bubbles', name: 'Bubbles ✺', description: 'Every tool is a glass bubble, sized at random, surfacing by category.', Component: SkillsBubbles },
+  { id: 'bubbles', name: 'Bubbles ✺', description: 'Technology icons rise to the surface inside glass bubbles. Pause on hover, focus, or with the motion control.', Component: SkillsBubbles },
 ];
 
 export const ENV_EXPERIENCE: SectionVariant[] = [

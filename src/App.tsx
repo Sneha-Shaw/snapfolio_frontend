@@ -10,6 +10,7 @@ const Home = lazy(() => import('@/pages/Home'));
 const Work = lazy(() => import('@/pages/Work'));
 const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
+const Forest = lazy(() => import('@/pages/concepts/Forest'));
 
 const Login = lazy(() => import('@/pages/admin/Login'));
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
@@ -41,6 +42,10 @@ export default function App() {
             <Route path="work" element={<Work />} />
             <Route path="work/:slug" element={<ProjectDetail />} />
           </Route>
+
+          {/* Flagship concept experiences: standalone, outside SiteLayout — each
+              owns its full chrome rather than sharing the site's navbar/footer. */}
+          <Route path="/concepts/forest" element={<Forest />} />
 
           <Route path="/admin/login" element={<GuestOnlyRoute />}>
             <Route index element={<Login />} />

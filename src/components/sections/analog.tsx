@@ -497,8 +497,8 @@ function ProjectsChannels({ projects, projectsLoading }: SectionProps) {
   return (
     <Section id="projects">
       <Heading eyebrow="Broadcast" title="Change the channel" />
-      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div className="crt-cabinet relative rounded-2xl p-4 sm:p-6">
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+        <div className="crt-cabinet relative min-w-0 rounded-2xl p-4 sm:p-6">
           <div className="crt-bloom pointer-events-none absolute inset-6 z-0" aria-hidden />
           <CrtTube className="relative z-[1] rounded-xl">
             {/* Static burst */}

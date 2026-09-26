@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import type { SectionVariant } from './shared';
+import { conceptVariant, isConceptId, CONCEPT_SCENES } from './conceptScenes';
 import {
   Avatar,
   CountUp,
@@ -499,9 +500,9 @@ export function buildMotifSections(kit: MotifKit): Record<MotifSectionName, Sect
   for (const name of Object.keys(BUILDERS) as MotifSectionName[]) {
     out[name] = {
       id: `kit-${kit.id}`,
-      name: `${kit.label} ✺`,
-      description: BLURB[name],
-      Component: BUILDERS[name](kit),
+      name: `${isConceptId(kit.id) ? CONCEPT_SCENES[kit.id][0] + ' scene' : kit.label} ✺`,
+      description: isConceptId(kit.id) ? `${CONCEPT_SCENES[kit.id][0]} objects and spatial arrangements for ${name}.` : BLURB[name],
+      Component: isConceptId(kit.id) ? conceptVariant(kit.id, name) : BUILDERS[name](kit),
     };
   }
   return out;
@@ -509,7 +510,12 @@ export function buildMotifSections(kit: MotifKit): Record<MotifSectionName, Sect
 
 /** Collects one section across many kits, for registering in the registry. */
 export function collect(kits: MotifKit[], name: MotifSectionName): SectionVariant[] {
-  return kits.map((k) => buildMotifSections(k)[name]);
+  return kits.map((kit) => ({
+    id: `kit-${kit.id}`,
+    name: `${isConceptId(kit.id) ? CONCEPT_SCENES[kit.id][0] + ' scene' : kit.label} ✺`,
+    description: isConceptId(kit.id) ? `${CONCEPT_SCENES[kit.id][0]} objects and spatial arrangements for ${name}.` : BLURB[name],
+    Component: isConceptId(kit.id) ? conceptVariant(kit.id, name) : BUILDERS[name](kit),
+  }));
 }
 
 // ---------------------------------------------------------------------------

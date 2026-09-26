@@ -1,0 +1,270 @@
+/* Scoped to registered concept sections; standard templates are unaffected. */
+.concept-scene {
+  --cs-ink: var(--color-text);
+  --cs-muted: var(--color-text-muted);
+  --cs-accent: var(--color-accent);
+  --cs-surface: var(--color-bg-elevated);
+  position: relative; isolation: isolate; overflow: hidden; color: var(--cs-ink); scroll-margin-top: 72px;
+  padding: clamp(64px, 8vw, 120px) 24px;
+}
+.cs-inner { position: relative; max-width: 1120px; margin: auto; }
+.cs-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 56px; }
+.cs-eyebrow { font: 10px/1.6 monospace; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 12px; color: var(--cs-muted); }
+.cs-heading h2 { font-size: clamp(28px, 4vw, 54px); line-height: 1.08; letter-spacing: -.04em; max-width: 800px; }
+.cs-motion-toggle { display: flex; align-items: center; gap: 8px; flex-shrink: 0; font-size: 11px; border: 1px solid var(--color-border); padding: 10px 14px; border-radius: 30px; background: var(--color-bg); cursor: pointer; }
+.cs-stage { position: relative; }
+.cs-items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; padding: 0; list-style: none; }
+.cs-item { position: relative; min-width: 0; }
+.cs-object { position: relative; display: block; height: 100%; min-width: 0; border: 1px solid var(--color-border); background: var(--cs-surface); transition: transform .35s, box-shadow .35s; }
+a.cs-object:hover { transform: translateY(-6px); }
+.cs-object:focus-visible, .cs-motion-toggle:focus-visible, .cs-hero-links a:focus-visible { outline: 3px solid var(--cs-accent); outline-offset: 7px; }
+.cs-copy { position: relative; padding: 28px; overflow-wrap: anywhere; }
+.cs-copy h3 { font-size: 20px; font-weight: 550; line-height: 1.3; }
+.cs-copy h1 { font-size: clamp(40px, 8vw, 100px); line-height: 1; letter-spacing: -.055em; }
+.cs-meta { font: 10px/1.7 monospace; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; color: var(--cs-muted); }
+.cs-description, .cs-copy blockquote { font-size: 14px; line-height: 1.8; color: var(--cs-muted); margin-top: 14px; white-space: pre-line; }
+.cs-copy blockquote { font: 20px/1.6 Georgia, serif; }
+.cs-image { overflow: hidden; margin: 10px; }
+.cs-image img { width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform .6s; }
+a.cs-object:hover .cs-image img { transform: scale(1.04); }
+.cs-link-arrow { width: 16px; height: 16px; margin-top: 18px; color: var(--cs-accent); }
+.cs-tech-icon svg { width: 30px; height: 30px; margin: 0 auto 12px; }
+.cs-scenery { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; opacity: .4; }
+.cs-landscape { width: 100%; height: 100%; fill: none; stroke: var(--cs-accent); stroke-width: 1; opacity: .25; }
+.cs-particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: var(--cs-accent); opacity: .4; animation: cs-drift 9s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -1s); }
+.cs-spine { display: none; }
+.cs-stem, .cs-shine, .cs-satellite, .cs-strata, .cs-clockwork, .cs-picture-wire { pointer-events: none; }
+.concept-scene[data-section='hero'] { min-height: 85svh; display: grid; align-items: center; }
+.concept-scene[data-section='hero'] .cs-inner { width: 100%; }
+.concept-scene[data-section='hero'] .cs-items { grid-template-columns: 1fr; }
+.concept-scene[data-section='hero'] .cs-object { max-width: 880px; margin: auto; }
+.concept-scene[data-section='hero'] .cs-image { float: right; width: 30%; }
+.concept-scene[data-section='hero'] .cs-copy { padding: 64px 40px; }
+.cs-hero-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-top: 36px; }
+.cs-hero-links a { display: inline-flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--cs-accent); padding: 12px; }
+.concept-scene[data-section='about'] .cs-items { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.concept-scene[data-section='about'] .cs-item:first-child { grid-column: 1 / -1; }
+.concept-scene[data-section='about'] .cs-item:first-child .cs-object { display: flow-root; }
+.concept-scene[data-section='about'] .cs-image { float: right; width: 30%; margin: 28px; }
+.concept-scene[data-section='about'] .cs-description { max-width: 760px; font-size: 18px; }
+.concept-scene[data-section='experience'] .cs-items, .concept-scene[data-section='education'] .cs-items { grid-template-columns: 1fr; gap: 36px; }
+.concept-scene[data-section='experience'] .cs-item, .concept-scene[data-section='education'] .cs-item { width: 82%; }
+.concept-scene[data-section='experience'] .cs-item:nth-child(even), .concept-scene[data-section='education'] .cs-item:nth-child(even) { justify-self: end; }
+.concept-scene[data-section='skills'] .cs-items { grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 28px; }
+.concept-scene[data-section='skills'] .cs-copy { text-align: center; padding: 25px 14px; }
+.concept-scene[data-section='skills'] h3 { font-size: 14px; }
+.concept-scene[data-section='skills'] .cs-meta { font-size: 9px; }
+.concept-scene[data-section='skills'] .cs-link-arrow { margin: 10px auto 0; }
+.concept-scene[data-section='stats'] .cs-copy h3 { font-size: clamp(40px, 5vw, 68px); font-variant-numeric: tabular-nums; }
+.concept-scene[data-section='contact'] .cs-items { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
+.concept-scene[data-section='contact'] .cs-item:first-child { width: 100%; }
+.concept-scene[data-section='contact'] .cs-item:first-child .cs-copy { padding: 48px 32px; text-align: center; }
+.concept-scene[data-section='contact'] .cs-item:first-child h3 { font-size: clamp(22px, 4vw, 44px); }
+.concept-scene[data-section='contact'] .cs-link-arrow { margin-left: auto; margin-right: auto; }
+
+/* SEA: light through water, portholes, depth markers, and real rising bubbles. */
+.concept-scene[data-motif='abyss'] .cs-object { border-radius: 44% 44% 24px 24px; border: 1px solid color-mix(in srgb, var(--cs-accent) 45%, transparent); background: radial-gradient(ellipse at 20% 0%, color-mix(in srgb, var(--cs-accent) 17%, transparent), transparent 60%), var(--cs-surface); box-shadow: inset 0 3px 8px #ffffff15, 0 20px 60px #0002; }
+.concept-scene[data-motif='abyss'] .cs-image { border-radius: 50%; margin: 24px; }
+.concept-scene[data-motif='abyss'] .cs-shine { position: absolute; top: 12px; left: 15%; width: 32%; height: 18px; border-top: 2px solid #ffffff60; border-radius: 50%; transform: rotate(-20deg); }
+.concept-scene[data-motif='abyss'] .cs-particle { width: 20px; height: 20px; border: 1px solid var(--cs-accent); background: none; animation: cs-bubble 14s linear infinite; animation-delay: calc(var(--i) * -1.2s); }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-stage { padding: 110px 0 80px; border-top: 2px solid color-mix(in srgb, var(--cs-accent) 45%, transparent); }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-stage::before { content: ''; position: absolute; inset: -18px -50vw auto; height: 35px; border-radius: 50%; border-top: 2px solid var(--cs-accent); box-shadow: 0 -12px 50px color-mix(in srgb, var(--cs-accent) 20%, transparent); animation: cs-tide 6s ease-in-out infinite alternate; }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-item { animation: cs-surface 14s linear infinite; animation-delay: var(--delay); }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-object { aspect-ratio: 1; border-radius: 50%; display: grid; align-content: center; background: radial-gradient(circle at 28% 20%, #ffffff25, transparent 45%), color-mix(in srgb, var(--cs-surface) 90%, transparent); }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-copy { padding: 20px 8px; }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-meta { display: none; }
+.concept-scene[data-motif='abyss'][data-section='experience'] .cs-spine, .concept-scene[data-motif='abyss'][data-section='education'] .cs-spine { display: block; position: absolute; inset: 0 auto 0 7%; width: 2px; background: repeating-linear-gradient(to bottom, var(--cs-accent) 0 2px, transparent 2px 16px); }
+.concept-scene[data-motif='abyss'][data-section='testimonials'] .cs-object { border-radius: 50% 50% 50% 8px; }
+
+/* FOREST / TREE: content grows from stems, branch junctions and tree rings. */
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy']) .cs-heading h2 { font-family: Georgia, serif; font-weight: 400; }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy']) .cs-object { border-radius: 4px 48px 4px 4px; background: repeating-linear-gradient(92deg, transparent 0 13px, #00000008 14px 16px), var(--cs-surface); border-bottom: 5px solid color-mix(in srgb, var(--cs-accent) 35%, var(--cs-surface)); }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy']) .cs-items { gap: 48px; }
+.cs-stem { position: absolute; width: 3px; height: 48px; background: var(--cs-accent); bottom: -48px; left: 50%; }
+.cs-stem i { position: absolute; width: 22px; height: 12px; border-radius: 0 100% 0 100%; background: var(--cs-accent); top: 14px; transform: rotate(-25deg); transform-origin: left; }
+.cs-stem i + i { left: -20px; top: 25px; transform: rotate(25deg); }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy']) .cs-particle { width: 9px; height: 16px; border-radius: 0 100% 0 100%; animation: cs-leaffall 15s linear infinite; animation-delay: calc(var(--i) * -1.3s); }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-items { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 35px 0 80px; gap: 70px 48px; }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-object { border-radius: 8px 65% 8px 65%; border: 1px solid var(--cs-accent); transform: rotate(-8deg); background: linear-gradient(40deg, transparent 49%, color-mix(in srgb, var(--cs-accent) 30%, transparent) 50%, transparent 51%), var(--cs-surface); animation: cs-leaf 6s ease-in-out infinite alternate; animation-delay: var(--delay); }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-copy { transform: rotate(8deg); padding: 40px 18px; }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-spine { display: block; position: absolute; left: 50%; top: 0; bottom: 0; width: 12px; border-radius: 70% 0 0 0; background: linear-gradient(90deg, var(--cs-accent), var(--cs-surface)); opacity: .5; }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-item::after { content: ''; position: absolute; height: 2px; background: var(--cs-accent); width: calc(100% + 48px); bottom: -30px; left: -24px; opacity: .5; }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='projects'] .cs-item:nth-child(even) { margin-top: 50px; }
+.concept-scene:is([data-motif='woodland'], [data-motif='canopy']):is([data-section='stats'], [data-section='education']) .cs-object { border-radius: 50%; background: repeating-radial-gradient(ellipse at center, transparent 0 16px, color-mix(in srgb, var(--cs-accent) 18%, transparent) 17px 19px), var(--cs-surface); padding: 35px; text-align: center; }
+.concept-scene[data-motif='canopy'][data-section='hero'] .cs-object { border-radius: 50% 50% 10px 10px; padding-top: 60px; }
+.concept-scene[data-motif='woodland'][data-section='contact'] .cs-object { border-radius: 3px; border-inline: 8px solid color-mix(in srgb, var(--cs-accent) 35%, var(--cs-surface)); }
+
+/* FLOWER / FIELD: petals and planted rows, with no boxed dashboard grid. */
+.concept-scene[data-motif='bloom'] .cs-object { border-radius: 65% 12px 65% 12px; padding: 22px; background: radial-gradient(at bottom right, color-mix(in srgb, var(--cs-accent) 20%, var(--cs-surface)), var(--cs-surface)); }
+.concept-scene[data-motif='bloom'] .cs-item:nth-child(even) .cs-object { border-radius: 12px 65% 12px 65%; }
+.concept-scene[data-motif='bloom'] .cs-image { border-radius: 65% 12px; }
+.concept-scene[data-motif='bloom'] .cs-particle { border-radius: 70% 0; width: 18px; height: 12px; }
+.concept-scene[data-motif='bloom'][data-section='hero'] .cs-object { border-radius: 45% 45% 40% 40%; padding: 40px; }
+.concept-scene[data-motif='bloom'][data-section='hero'] .cs-copy { text-align: center; }
+.concept-scene[data-motif='meadow'] .cs-stage { border-bottom: 14px double color-mix(in srgb, var(--cs-accent) 35%, transparent); padding-bottom: 64px; }
+.concept-scene[data-motif='meadow'] .cs-items { column-gap: 48px; row-gap: 80px; }
+.concept-scene[data-motif='meadow'] .cs-object { border-radius: 50% 50% 3px 3px; border-bottom: 0; background: linear-gradient(0deg, color-mix(in srgb, var(--cs-accent) 18%, transparent), transparent), var(--cs-surface); padding-top: 24px; }
+.concept-scene[data-motif='meadow'] .cs-stem { height: 64px; bottom: -64px; }
+.concept-scene[data-motif='meadow'][data-section='skills'] .cs-item:nth-child(2n) { padding-top: 32px; }
+.concept-scene[data-motif='meadow'][data-section='stats'] .cs-object { border-radius: 4px; border: 6px double var(--cs-accent); }
+
+/* WEB: silk threads suspend content from a connected network. */
+.concept-scene[data-motif='arachnid'] .cs-items { gap: 70px; }
+.concept-scene[data-motif='arachnid'] .cs-object { border-radius: 50% 50% 12px 12px; background: color-mix(in srgb, var(--cs-surface) 85%, transparent); padding-top: 25px; border-style: dotted; }
+.concept-scene[data-motif='arachnid'] .cs-item::before { content: ''; position: absolute; left: 50%; bottom: 100%; height: 70px; width: 1px; background: var(--cs-accent); opacity: .5; }
+.concept-scene[data-motif='arachnid'] .cs-item:nth-child(3n+2) { padding-top: 60px; }
+.cs-satellite { position: absolute; width: 12px; height: 12px; top: -7px; left: 50%; border-radius: 50%; background: var(--cs-accent); box-shadow: 0 0 20px var(--cs-accent); }
+.concept-scene[data-motif='arachnid'][data-section='stats'] .cs-object { border-radius: 50%; text-align: center; }
+
+/* GLOBE / GALAXY / PHYSICS: coordinates, constellations and electron shells. */
+.concept-scene:is([data-motif='orbital'], [data-motif='nebula'], [data-motif='quantum']) .cs-object { border-radius: 24px; background: color-mix(in srgb, var(--cs-surface) 92%, transparent); }
+.concept-scene[data-motif='orbital'] .cs-object { border-radius: 50% 50% 12px 12px; padding-top: 40px; background-image: repeating-linear-gradient(0deg, transparent 0 30px, color-mix(in srgb, var(--cs-accent) 8%, transparent) 31px 32px), repeating-linear-gradient(90deg, transparent 0 30px, color-mix(in srgb, var(--cs-accent) 8%, transparent) 31px 32px); }
+.concept-scene[data-motif='orbital'][data-section='skills'] .cs-object { border-radius: 50%; }
+.concept-scene[data-motif='nebula'] .cs-items { gap: 60px 50px; }
+.concept-scene[data-motif='nebula'] .cs-item:nth-child(3n+2) { margin-top: 65px; }
+.concept-scene[data-motif='nebula'] .cs-item::before { content: ''; position: absolute; height: 1px; width: 80px; background: var(--cs-accent); top: 20px; left: -60px; transform: rotate(-25deg); opacity: .3; }
+.concept-scene[data-motif='quantum'] .cs-object { border: 0; border-left: 2px solid var(--cs-accent); border-radius: 0; margin: 18px; }
+.concept-scene[data-motif='quantum'] .cs-object::before { content: ''; position: absolute; inset: -18px; border: 1px solid color-mix(in srgb, var(--cs-accent) 30%, transparent); border-radius: 50%; transform: rotate(-20deg); pointer-events: none; }
+.concept-scene[data-motif='quantum'][data-section='skills'] .cs-object { border-radius: 50%; border: 1px solid var(--cs-accent); }
+.concept-scene[data-motif='quantum'] .cs-satellite { animation: cs-drift 5s ease-in-out infinite alternate; }
+
+/* COMIC: staggered panels, captions, speech balloons and hard ink shadows. */
+.concept-scene[data-motif='origin-story'] .cs-object { border: 3px solid var(--cs-ink); box-shadow: 7px 7px 0 var(--cs-ink); transform: rotate(var(--tilt)); }
+.concept-scene[data-motif='origin-story'] .cs-items { gap: 45px; }
+.concept-scene[data-motif='origin-story'] .cs-copy h3, .concept-scene[data-motif='origin-story'] .cs-heading h2 { font-weight: 900; text-transform: uppercase; font-style: italic; }
+.cs-caption { display: inline-block; padding: 7px 12px; font: bold 10px monospace; background: var(--cs-accent); color: var(--color-on-accent); border: 2px solid var(--cs-ink); transform: translate(-8px, -10px) rotate(-3deg); }
+.concept-scene[data-motif='origin-story'][data-section='testimonials'] .cs-object { border-radius: 50% 50% 50% 3px; }
+.concept-scene[data-motif='origin-story'][data-section='skills'] .cs-object { border-radius: 35% 0 35% 0; }
+.concept-scene[data-motif='origin-story'][data-section='gallery'] .cs-item:nth-child(3n+1) { grid-column: span 2; }
+
+/* COMPUTER / LAPTOP / PHONE / CRT: actual chrome, screens and device controls. */
+.cs-windowbar { height: 32px; display: flex; align-items: center; gap: 5px; padding: 0 12px; border-bottom: 1px solid var(--color-border); font: 9px monospace; }
+.cs-windowbar i { width: 7px; height: 7px; border-radius: 50%; background: var(--cs-muted); opacity: .5; }
+.cs-windowbar span { margin-left: auto; }
+.concept-scene[data-motif='mechanical'] .cs-object { border: 2px solid var(--cs-muted); border-radius: 5px; box-shadow: 5px 5px 0 color-mix(in srgb, var(--cs-muted) 25%, transparent); font-family: monospace; }
+.concept-scene[data-motif='mechanical'][data-section='experience'] .cs-item:nth-child(even) { transform: translateY(-14px); }
+.concept-scene[data-motif='macbook'] .cs-object { border: 7px solid #8b8d91; border-top-width: 12px; border-radius: 12px; box-shadow: 0 18px 35px #0003; }
+.concept-scene[data-motif='macbook'] .cs-object::after { content: ''; position: absolute; left: -7%; right: -7%; height: 9px; bottom: -16px; background: linear-gradient(#e2e2e5, #82838a); border-radius: 2px 2px 50% 50%; }
+.concept-scene[data-motif='macbook'][data-section='gallery'] .cs-items { gap: 50px; }
+.concept-scene[data-motif='handset'] .cs-object { border: 7px solid #34343b; border-radius: 36px; padding: 16px 5px 25px; box-shadow: 0 15px 30px #0003; }
+.concept-scene[data-motif='handset'] .cs-windowbar { width: 70px; height: 12px; margin: -10px auto 15px; background: #151519; border-radius: 10px; }
+.concept-scene[data-motif='handset'] .cs-windowbar > * { display: none; }
+.concept-scene[data-motif='handset'] .cs-object::after { content: ''; position: absolute; bottom: 8px; left: 35%; width: 30%; height: 4px; border-radius: 3px; background: var(--cs-muted); }
+.concept-scene[data-motif='handset'][data-section='skills'] .cs-object { border-width: 0; border-radius: 25%; padding: 5px; }
+.concept-scene[data-motif='handset'][data-section='skills'] .cs-windowbar, .concept-scene[data-motif='handset'][data-section='skills'] .cs-object::after { display: none; }
+.concept-scene[data-motif='handset'][data-section='testimonials'] .cs-object { border: 0; border-radius: 24px 24px 24px 0; }
+.concept-scene[data-motif='cathode'] .cs-object { border: 14px solid #34332f; border-right-width: 35px; border-radius: 18% / 12%; background-image: repeating-linear-gradient(transparent 0 3px, #0002 3px 4px); box-shadow: inset 0 0 25px #0005; font-family: monospace; }
+.concept-scene[data-motif='cathode'] .cs-object::after { content: '◉'; position: absolute; right: -28px; top: 38%; color: #b6b3a1; font-size: 22px; }
+.concept-scene[data-motif='cathode'] .cs-windowbar { border: 0; color: var(--cs-accent); }
+.concept-scene[data-motif='cathode'] .cs-windowbar i { display: none; }
+
+/* GALLERY / BOOK: hanging canvases and a bound, paginated spread. */
+.concept-scene[data-motif='salon'] .cs-items { gap: 65px 40px; }
+.concept-scene[data-motif='salon'] .cs-object { border: 12px ridge color-mix(in srgb, var(--cs-accent) 55%, #887149); padding: 10px; box-shadow: 4px 12px 24px #0004; font-family: Georgia, serif; }
+.concept-scene[data-motif='salon'] .cs-picture-wire { position: absolute; width: 60%; height: 50px; border-top: 1px solid var(--cs-muted); border-left: 1px solid var(--cs-muted); transform: rotate(12deg) skewX(-60deg); top: -38px; left: 20%; z-index: -1; }
+.concept-scene[data-motif='salon'][data-section='skills'] .cs-object { border: 0; border-radius: 65% 35% 60% 40%; background: radial-gradient(at 30% 30%, color-mix(in srgb, var(--cs-accent) 35%, var(--cs-surface)), var(--cs-surface)); box-shadow: inset -5px -5px 15px #0002; }
+.concept-scene[data-motif='salon'][data-section='skills'] .cs-picture-wire { display: none; }
+.concept-scene[data-motif='bindery'] { --cs-ink: #30291f; --cs-muted: #645b4a; --cs-surface: #efe7d4; }
+.concept-scene[data-motif='bindery'] .cs-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; background: #d7c9aa; padding: 8px; border-radius: 4px; box-shadow: 8px 12px 0 #0002; }
+.concept-scene[data-motif='bindery'] .cs-object { border: 0; border-radius: 0; background: linear-gradient(90deg, #00000012, transparent 9%, transparent 94%, #0000000d), var(--cs-surface); border-bottom: 1px solid #0002; min-height: 160px; padding: 20px 12px 35px; font-family: Georgia, serif; }
+.concept-scene[data-motif='bindery'] .cs-page-number { position: absolute; bottom: 12px; left: 50%; font: italic 11px Georgia, serif; }
+.concept-scene[data-motif='bindery']:is([data-section='experience'], [data-section='education']) .cs-item { width: 100%; }
+.concept-scene[data-motif='bindery'][data-section='testimonials'] .cs-copy blockquote::first-letter { font-size: 50px; }
+
+/* DESERT / MOUNTAIN / VOLCANO: strata, expedition ropes and fractured rock. */
+.concept-scene[data-motif='dune'] .cs-items { gap: 45px; }
+.concept-scene[data-motif='dune'] .cs-object { border: 0; border-radius: 45% 45% 5px 5px; border-bottom: 5px double var(--cs-accent); padding-top: 40px; background: linear-gradient(170deg, transparent 50%, color-mix(in srgb, var(--cs-accent) 12%, transparent) 51%), var(--cs-surface); }
+.concept-scene[data-motif='dune'] .cs-item:nth-child(2n) { padding-top: 50px; }
+.concept-scene[data-motif='dune'][data-section='skills'] .cs-object { border-radius: 50% 50% 5px 5px; padding: 22px 0; }
+.concept-scene[data-motif='summit'] .cs-object { border-radius: 0; border: 0; border-top: 3px solid var(--cs-accent); box-shadow: 8px 8px 0 color-mix(in srgb, var(--cs-accent) 12%, transparent); margin-top: 20px; }
+.cs-summit-flag { position: absolute; top: -42px; left: 16px; font-size: 36px; color: var(--cs-accent); }
+.concept-scene[data-motif='summit'] .cs-item:nth-child(3n+2) { padding-top: 55px; }
+.concept-scene[data-motif='summit'][data-section='skills'] .cs-object { border-radius: 50% 50% 0 0; padding-top: 30px; }
+.concept-scene[data-motif='summit'] .cs-spine { display: block; position: absolute; inset: 0 5%; border: 2px dashed var(--cs-accent); border-radius: 50%; opacity: .25; }
+.concept-scene[data-motif='magma'] .cs-object { border: 0; border-left: 3px solid var(--cs-accent); border-right: 1px solid var(--cs-accent); border-radius: 2px 30px 2px 20px; background-image: linear-gradient(130deg, transparent 40%, color-mix(in srgb, var(--cs-accent) 15%, transparent) 40.5%, transparent 42%); box-shadow: -6px 0 25px color-mix(in srgb, var(--cs-accent) 12%, transparent); transform: rotate(var(--tilt)); }
+.concept-scene[data-motif='magma'] .cs-particle { border-radius: 0; width: 3px; height: 12px; animation: cs-bubble 10s linear infinite; animation-delay: calc(var(--i) * -.9s); }
+.concept-scene[data-motif='magma'][data-section='skills'] .cs-object { border-radius: 25% 45% 15% 30%; }
+
+/* WEATHER: droplets sliding down glass, cloud shelves, and instrument gauges. */
+.concept-scene[data-motif='monsoon'] .cs-object { border-radius: 65% 8px 65% 65%; padding: 28px 15px 15px; background: linear-gradient(135deg, #ffffff12, transparent 50%), var(--cs-surface); box-shadow: inset 3px 3px 8px #ffffff10, 0 15px 25px #0002; }
+.concept-scene[data-motif='monsoon'] .cs-item:nth-child(even) { padding-top: 55px; }
+.concept-scene[data-motif='monsoon'] .cs-particle { width: 1px; height: 70px; border-radius: 0; transform: rotate(15deg); animation: cs-rain 2s linear infinite; animation-delay: calc(var(--i) * -.23s); }
+.concept-scene[data-motif='monsoon'][data-section='skills'] .cs-object { animation: cs-drift 7s ease-in-out infinite alternate; animation-delay: var(--delay); }
+.concept-scene[data-motif='cirrus'] .cs-object { border: 0; border-radius: 80px 100px 65px 55px; box-shadow: 0 15px 40px #0000000c, inset 0 5px 20px #ffffff18; padding: 22px; }
+.concept-scene[data-motif='cirrus'] .cs-items { gap: 48px; }
+.concept-scene[data-motif='cirrus'] .cs-item:nth-child(3n+2) { padding-top: 50px; }
+.concept-scene[data-motif='cirrus'][data-section='skills'] .cs-object { animation: cs-cloud 9s ease-in-out infinite alternate; animation-delay: var(--delay); }
+.concept-scene[data-motif='barometer'] .cs-object { border: 4px double var(--cs-muted); border-radius: 50% 50% 8px 8px; padding-top: 24px; }
+.concept-scene[data-motif='barometer'][data-section='stats'] .cs-object { border-radius: 50%; text-align: center; }
+.cs-instrument { height: 44px; position: relative; margin: 12px 22px; background: repeating-linear-gradient(90deg, var(--cs-muted) 0 1px, transparent 1px 10px); opacity: .6; border-bottom: 1px solid var(--cs-muted); }
+.cs-instrument i { position: absolute; left: 55%; top: 0; width: 2px; height: 100%; background: var(--cs-accent); transform-origin: bottom; transform: rotate(-20deg); }
+.cs-instrument b { position: absolute; width: 14px; height: 14px; border-radius: 50%; border: 3px double var(--cs-muted); right: 0; bottom: -20px; }
+
+/* CLOCK / RADIO / MUSIC / CAR: mechanisms, tuners, staves and pit-lane rails. */
+.concept-scene[data-motif='horology'] .cs-object { border: 7px double color-mix(in srgb, var(--cs-accent) 50%, var(--cs-muted)); border-radius: 50%; padding: 48px 24px; text-align: center; }
+.cs-clockwork { position: absolute; inset: 8px; border: 1px dotted var(--cs-muted); border-radius: 50%; }
+.cs-clockwork i { position: absolute; font: 11px Georgia, serif; }
+.cs-clockwork i:nth-child(1) { top: 5px; left: 46%; }.cs-clockwork i:nth-child(2) { top: 48%; right: 5px; }.cs-clockwork i:nth-child(3) { bottom: 5px; left: 48%; }.cs-clockwork i:nth-child(4) { top: 48%; left: 5px; }
+.concept-scene[data-motif='horology'][data-section='skills'] .cs-object { padding: 25px 0; }
+.concept-scene[data-motif='shortwave'] .cs-object { border: 12px solid #514033; border-radius: 12px; background-image: repeating-linear-gradient(0deg, transparent 0 3px, #0000000a 3px 4px); box-shadow: 0 8px 0 #30261f; }
+.concept-scene[data-motif='shortwave'] .cs-instrument { background-color: #241d13; color: #e2cb83; border: 5px inset #5d4930; height: 65px; }
+.concept-scene[data-motif='shortwave'] .cs-instrument i { animation: cs-tune 12s ease-in-out infinite alternate; }
+.concept-scene[data-motif='concert'] .cs-object { border: 0; border-bottom: 8px solid var(--cs-ink); border-radius: 0 0 40% 5px; background-image: repeating-linear-gradient(0deg, transparent 0 29px, color-mix(in srgb, var(--cs-muted) 12%, transparent) 30px 31px); padding-bottom: 25px; }
+.concept-scene[data-motif='concert'] .cs-instrument { height: 20px; background: repeating-linear-gradient(90deg, var(--cs-muted) 0 3px, transparent 3px 14px); border: 0; }
+.concept-scene[data-motif='concert'] .cs-instrument::after { content: '♪'; position: absolute; font-size: 38px; right: 10px; top: -20px; color: var(--cs-accent); }
+.concept-scene[data-motif='concert'][data-section='experience'] .cs-spine { display: block; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 38px, color-mix(in srgb, var(--cs-muted) 25%, transparent) 39px 40px); }
+.concept-scene[data-motif='redline'] .cs-object { border-radius: 8px 40px 8px 8px; border: 0; border-top: 6px solid var(--cs-accent); background-image: repeating-linear-gradient(135deg, transparent 0 5px, #00000010 5px 7px); }
+.concept-scene[data-motif='redline'] .cs-stage { border-left: 4px dashed var(--cs-muted); padding-left: 32px; }
+.concept-scene[data-motif='redline'] .cs-instrument { border-radius: 50% 50% 0 0; background: repeating-conic-gradient(from 270deg at 50% 100%, var(--cs-muted) 0deg 1deg, transparent 1deg 15deg); height: 60px; }
+.concept-scene[data-motif='redline'][data-section='skills'] .cs-object { border-radius: 50%; border: 6px double var(--cs-muted); }
+
+/* MEDICAL / CHEMISTRY: chart traces and graduated glass vessels. */
+.concept-scene[data-motif='vitals'] .cs-object { border: 5px solid color-mix(in srgb, var(--cs-muted) 45%, var(--cs-surface)); border-radius: 14px; font-family: monospace; background-image: linear-gradient(color-mix(in srgb, var(--cs-accent) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--cs-accent) 7%, transparent) 1px, transparent 1px); background-size: 12px 12px; }
+.concept-scene[data-motif='vitals'] .cs-instrument { background: none; border: 0; }
+.concept-scene[data-motif='vitals'] .cs-instrument span { position: absolute; inset: 0; background: var(--cs-accent); clip-path: polygon(0 48%, 25% 48%, 30% 20%, 35% 80%, 40% 0, 46% 98%, 53% 48%, 100% 48%, 100% 53%, 52% 53%, 46% 100%, 40% 18%, 35% 90%, 30% 35%, 26% 53%, 0 53%); }
+.concept-scene[data-motif='vitals'] .cs-instrument i { display: none; }
+.concept-scene[data-motif='reagent'] .cs-object { border: 2px solid color-mix(in srgb, var(--cs-muted) 50%, transparent); border-top: 7px double var(--cs-muted); border-radius: 0 0 35% 35%; padding: 30px 25px; background: linear-gradient(0deg, color-mix(in srgb, var(--cs-accent) 18%, var(--cs-surface)) 0 60%, var(--cs-surface) 61%); }
+.cs-graduations { position: absolute; right: 8px; top: 24px; font: 8px/2 monospace; color: var(--cs-muted); text-align: right; }
+.concept-scene[data-motif='reagent'][data-section='experience'] .cs-object { border-radius: 0 0 50px 50px; }
+.concept-scene[data-motif='reagent'] .cs-particle { width: 10px; height: 10px; background: none; border: 1px solid var(--cs-accent); animation: cs-bubble 10s linear infinite; animation-delay: calc(var(--i) * -1s); }
+
+@keyframes cs-surface { 0% { transform: translate(0, 80px); opacity: 0; } 12% { opacity: 1; } 45% { transform: translate(8px, -15px); } 88% { opacity: 1; } 100% { transform: translate(-5px, -105px); opacity: 0; } }
+@keyframes cs-bubble { from { transform: translateY(220px); opacity: 0; } 20%, 80% { opacity: .6; } to { transform: translateY(-450px); opacity: 0; } }
+@keyframes cs-tide { to { transform: translateX(40px) scaleY(.6); } }
+@keyframes cs-leaf { to { transform: rotate(-3deg) translateY(-5px); } }
+@keyframes cs-leaffall { from { transform: translate(0, -100px) rotate(0); opacity: 0; } 20%, 80% { opacity: .5; } to { transform: translate(70px, 350px) rotate(180deg); opacity: 0; } }
+@keyframes cs-drift { to { transform: translate(12px, -20px); opacity: .8; } }
+@keyframes cs-cloud { to { transform: translateX(12px); } }
+@keyframes cs-rain { from { transform: translate(0, -120px) rotate(15deg); } to { transform: translate(-80px, 400px) rotate(15deg); } }
+@keyframes cs-tune { to { left: 75%; transform: rotate(15deg); } }
+.concept-scene *, .concept-scene *::before, .concept-scene *::after { animation-play-state: paused; }
+.concept-scene[data-motion='running'] *, .concept-scene[data-motion='running'] *::before, .concept-scene[data-motion='running'] *::after { animation-play-state: running; }
+.concept-scene .cs-stage:hover *, .concept-scene .cs-stage:focus-within * { animation-play-state: paused; }
+.concept-scene[data-motion='paused'][data-motif='abyss'][data-section='skills'] .cs-item { animation: none; opacity: 1; }
+.concept-scene[data-motif='abyss'][data-section='skills'] .cs-stage:is(:hover, :focus-within) .cs-item { opacity: 1 !important; }
+@media (max-width: 760px) {
+  .concept-scene { padding: 64px 20px; }
+  .cs-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .cs-heading { align-items: start; flex-direction: column; margin-bottom: 36px; }
+  .concept-scene[data-section='about'] .cs-items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .concept-scene[data-section='about'] .cs-image { float: none; width: auto; }
+  .concept-scene[data-section='experience'] .cs-item, .concept-scene[data-section='education'] .cs-item { width: 95%; }
+  .concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 70px 24px; }
+  .cs-copy { padding: 22px; }
+  .concept-scene[data-motif='horology'] .cs-object { padding: 40px 8px; }
+  .concept-scene[data-motif='bloom'] .cs-object { padding: 12px; border-radius: 45px 4px 45px 4px; }
+}
+@media (max-width: 480px) {
+  .cs-items, .concept-scene[data-section='about'] .cs-items, .concept-scene[data-motif='bindery'] .cs-items { grid-template-columns: 1fr; }
+  .concept-scene[data-section='skills'] .cs-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .concept-scene[data-section='hero'] .cs-copy { padding: 40px 20px; }
+  .concept-scene[data-section='hero'] .cs-image { float: none; width: auto; }
+  .concept-scene[data-motif='origin-story'][data-section='gallery'] .cs-item:nth-child(3n+1) { grid-column: auto; }
+  .concept-scene[data-motif='salon'] .cs-object { border-width: 8px; }
+  .concept-scene[data-motif='reagent'] .cs-object { padding-inline: 12px; }
+  .concept-scene[data-section='skills'] .cs-copy { padding-inline: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .concept-scene *, .concept-scene *::before, .concept-scene *::after { animation: none !important; transition: none !important; }
+  .concept-scene[data-motif='abyss'][data-section='skills'] .cs-item { transform: none; opacity: 1; }
+}

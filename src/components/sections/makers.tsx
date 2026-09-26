@@ -231,9 +231,9 @@ function StatsEqualizer(props: SectionProps) {
     <Section>
       <Heading eyebrow="Levels" title="On the meters" align="center" />
       <div className="mx-auto max-w-3xl rounded-2xl bg-gradient-to-b from-[#16161b] to-[#0a0a0d] p-6 shadow-[var(--shadow-card)] sm:p-8">
-        <div className="flex h-56 items-end justify-center gap-5 sm:gap-8">
+        <div className="flex h-56 items-end justify-center gap-3 sm:gap-8">
           {stats.map((stat, i) => (
-            <div key={stat.label} className="flex h-full flex-1 flex-col items-center justify-end gap-3">
+            <div key={stat.label} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-3">
               {/* Column of segments; the lit height tracks the value. */}
               <div className="relative flex w-full flex-1 items-end">
                 <motion.div
@@ -256,7 +256,7 @@ function StatsEqualizer(props: SectionProps) {
               <p className="tabular text-lg font-semibold text-[var(--color-accent)]">
                 <CountUp to={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="text-center text-[10px] uppercase leading-tight tracking-wider text-white/45">{stat.label}</p>
+              <p className="w-full break-words text-center text-[10px] uppercase leading-tight tracking-wider text-white/45">{stat.label}</p>
             </div>
           ))}
         </div>

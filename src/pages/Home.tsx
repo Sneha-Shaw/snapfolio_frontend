@@ -11,6 +11,8 @@ import { socialLinkService } from '@/services/socialLink.service';
 import { decodeLayout, getVariant, presetLayout, resolveLayout } from '@/components/sections/registry';
 import type { SectionProps } from '@/components/sections/shared';
 import { PageSpinner } from '@/components/ui';
+import { SectionViewport } from '@/components/sections/SectionViewport';
+import './compactPortfolio.css';
 
 export default function Home() {
   const [searchParams] = useSearchParams();
@@ -51,14 +53,16 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="portfolio-home">
       {layout
         .filter((s) => s.enabled)
         .map((s, i) => {
           const variant = getVariant(s.section, s.variant);
           if (!variant) return null;
           const { Component } = variant;
-          return <Component key={`${s.section}-${s.variant}-${i}`} {...props} />;
+          return <SectionViewport key={`${s.section}-${s.variant}-${i}`} section={s.section} eager={i === 0}>
+            <Component {...props} />
+          </SectionViewport>;
         })}
     </div>
   );

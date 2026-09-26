@@ -1271,7 +1271,7 @@ export const LAYOUT_PRESETS: LayoutPreset[] = [
     footer: 'motif',
     description: 'A career that grows: bark trunk filling as you scroll, roles on branches, growth rings for study.',
     sections: [
-      ['hero', 'field'],
+      ['hero', 'living-tree'],
       ['about', 'kit-canopy'],
       ['projects', 'kit-canopy'],
       ['experience', 'tree'],
@@ -1292,7 +1292,7 @@ export const LAYOUT_PRESETS: LayoutPreset[] = [
     footer: 'motif',
     description: 'Petals that open on scroll: disciplines bloom from a pollen core, project images cut as petals.',
     sections: [
-      ['hero', 'sky'],
+      ['hero', 'flower-opening'],
       ['about', 'bloom'],
       ['projects', 'kit-bloom'],
       ['experience', 'kit-bloom'],
@@ -1380,7 +1380,7 @@ export const LAYOUT_PRESETS: LayoutPreset[] = [
     footer: 'motif',
     description: 'Hung and lit: gilt-framed canvases under picture lights, a wet palette, brush-stroke provenance.',
     sections: [
-      ['hero', 'book'],
+      ['hero', 'artist-canvas'],
       ['about', 'palette'],
       ['projects', 'kit-salon'],
       ['experience', 'canvas'],

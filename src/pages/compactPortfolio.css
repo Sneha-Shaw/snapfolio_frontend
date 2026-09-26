@@ -1,0 +1,98 @@
+/* A restrained reading scale shared by the public portfolio presentations. */
+.portfolio-home h1, .forest-page h1 { font-size: clamp(32px, 4.4vw, 56px); line-height: 1.08; }
+.portfolio-home h2, .forest-page h2 { font-size: clamp(23px, 2.5vw, 32px); line-height: 1.18; }
+.portfolio-home h3, .forest-page h3 { font-size: clamp(16px, 1.6vw, 20px); line-height: 1.35; }
+.section-viewport { position: relative; scroll-margin-top: 76px; }
+.section-anchor { position: absolute; top: 0; scroll-margin-top: 76px; }
+.section-placeholder { min-height: 380px; }
+.section-viewport[data-section-kind='hero'] .section-placeholder { min-height: 520px; }
+.portfolio-home .section-viewport > section { padding-top: clamp(30px, 4vw, 52px); padding-bottom: clamp(30px, 4vw, 52px); }
+.portfolio-home .section-viewport > section > .py-20 { padding-top: 0; padding-bottom: 0; }
+.portfolio-home .section-viewport[data-section-kind='hero'] > section { min-height: 0; padding-top: 64px; padding-bottom: 64px; }
+.portfolio-home .section-viewport[data-active='false'] *,
+.portfolio-home .section-viewport[data-active='false'] *::before,
+.portfolio-home .section-viewport[data-active='false'] *::after { animation-play-state: paused !important; }
+.portfolio-home .section-viewport[data-active='false'][data-mounted='true'] { content-visibility: auto; contain-intrinsic-size: auto 380px; }
+.portfolio-home .section-viewport [class*='backdrop-blur'] { backdrop-filter: none; }
+.portfolio-home .section-viewport [class~='blur-3xl'] { filter: blur(24px); }
+
+/* Compact content objects keep their silhouette without oversized padding. */
+.portfolio-home .concept-scene[data-motif][data-section] { padding: 36px 24px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-inner { max-width: 1040px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-heading { margin-bottom: 24px; gap: 16px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-heading h2 { font-size: clamp(23px, 2.5vw, 32px); }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-eyebrow { font-size: 9px; letter-spacing: .16em; margin-bottom: 8px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-copy { padding: 18px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-copy h3 { font-size: 16px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-description { font-size: 13px; line-height: 1.65; margin-top: 8px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-copy blockquote { font-size: 16px; line-height: 1.6; margin-top: 10px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-meta { font-size: 9px; margin-bottom: 6px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-image img { aspect-ratio: 16/10; max-height: 220px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-link-arrow { margin-top: 10px; width: 14px; height: 14px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-motion-toggle { padding: 7px 10px; font-size: 10px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-items { gap: 22px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-item { margin-top: 0; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-item:nth-child(even) { padding-top: 0; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-instrument { height: 26px; margin: 10px 16px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-object { box-shadow: none; }
+.portfolio-home .concept-scene[data-motif][data-section='about'] .cs-image { width: 22%; max-width: 180px; margin: 18px; }
+.portfolio-home .concept-scene[data-motif][data-section='about'] .cs-items { gap: 16px; }
+.portfolio-home .concept-scene[data-motif][data-section='hero'] { min-height: 0; padding-block: 56px; }
+.portfolio-home .concept-scene[data-motif][data-section='hero'] .cs-copy { padding: 36px 24px; }
+.portfolio-home .concept-scene[data-motif][data-section='hero'] .cs-copy h1 { font-size: clamp(32px, 4.4vw, 56px); }
+.portfolio-home .concept-scene[data-motif][data-section='skills'] .cs-items { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 16px; }
+.portfolio-home .concept-scene[data-motif][data-section='skills'] .cs-copy { padding: 14px 8px; }
+.portfolio-home .concept-scene[data-motif][data-section='skills'] h3 { font-size: 12px; }
+.portfolio-home .concept-scene[data-motif][data-section='skills'] .cs-meta { font-size: 8px; }
+.portfolio-home .concept-scene[data-motif][data-section='skills'] .cs-tech-icon svg { width: 22px; height: 22px; margin-bottom: 8px; }
+.portfolio-home .concept-scene[data-motif][data-section='stats'] .cs-items { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.portfolio-home .concept-scene[data-motif][data-section='stats'] .cs-copy h3 { font-size: 32px; }
+.portfolio-home .concept-scene[data-motif][data-section='contact'] .cs-item:first-child .cs-copy { padding: 28px 20px; }
+.portfolio-home .concept-scene[data-motif][data-section='contact'] .cs-item:first-child h3 { font-size: clamp(20px, 2.8vw, 32px); }
+.portfolio-home .concept-scene[data-motif][data-section='gallery'] .cs-items { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.portfolio-home .concept-scene[data-motif][data-section='gallery'] .cs-image img { max-height: 180px; }
+.cs-show-more { display: block; margin: 28px auto 0; padding: 9px 16px; border: 1px solid var(--color-border); border-radius: 20px; font-size: 12px; cursor: pointer; }
+.cs-show-more:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+
+/* Natural structures retain enough room for stems and rising bubbles. */
+.portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy'], [data-motif='meadow'], [data-motif='bloom'])[data-section] .cs-items { row-gap: 44px; }
+.portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-items { grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 10px 0 40px; gap: 44px 20px; }
+.portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-copy { padding: 22px 8px; }
+.portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-meta { display: none; }
+.portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-item::after { bottom: -21px; width: calc(100% + 20px); left: -10px; }
+.portfolio-home .concept-scene[data-motif][data-section] .cs-stem { height: 30px; bottom: -30px; }
+.portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy']):is([data-section='stats'], [data-section='education']) .cs-object { padding: 20px; }
+.portfolio-home .concept-scene[data-motif='abyss'][data-section='skills'] .cs-stage { padding: 48px 0 35px; }
+.portfolio-home .concept-scene[data-motif='abyss'][data-section='skills'] .cs-items { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 38px 26px; }
+.portfolio-home .concept-scene[data-motif='abyss'][data-section='skills'] .cs-item { animation-name: cs-rise-compact; animation-duration: 16s; }
+.portfolio-home .concept-scene[data-motif='abyss'][data-section='skills'] .cs-object { width: 100%; max-width: 125px; margin-inline: auto; }
+.portfolio-home .concept-scene[data-motif='abyss'][data-section='skills'] .cs-link-arrow { display: none; }
+@keyframes cs-rise-compact { 0% { transform: translateY(18px); opacity: .6; } 20%, 85% { opacity: 1; } 100% { transform: translateY(-18px); opacity: .6; } }
+.portfolio-home .concept-scene[data-motif='horology'][data-section] .cs-object { padding: 32px 16px; }
+.portfolio-home .concept-scene[data-motif='horology'][data-section='skills'] .cs-object { padding: 18px 6px; }
+.portfolio-home .concept-scene[data-motif='bindery'][data-section] .cs-items { gap: 0; }
+.portfolio-home .concept-scene[data-motif='bindery'][data-section] .cs-object { min-height: 0; padding: 12px 8px 24px; }
+.portfolio-home .concept-scene[data-motif='salon'][data-section] .cs-items { row-gap: 40px; }
+.portfolio-home .concept-scene[data-motif='summit'][data-section] .cs-items { row-gap: 45px; }
+.portfolio-home .concept-scene[data-motif='arachnid'][data-section] .cs-items { gap: 36px; }
+
+/* The standalone forest follows the same compact reading rhythm. */
+.forest-page > section { padding-top: 48px; padding-bottom: 48px; min-height: 0; }
+.forest-page > section:first-of-type { padding-top: 80px; padding-bottom: 56px; }
+.forest-page [class*='backdrop-blur'] { backdrop-filter: none; }
+@media (max-width: 700px) {
+  .portfolio-home .concept-scene[data-motif][data-section] { padding: 28px 20px; }
+  .portfolio-home .concept-scene[data-motif][data-section] .cs-heading { margin-bottom: 20px; }
+  .portfolio-home .concept-scene[data-motif][data-section='about'] .cs-image { width: 90px; float: right; }
+  .portfolio-home .concept-scene:is([data-motif='woodland'], [data-motif='canopy'])[data-section='skills'] .cs-items { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 42px 14px; }
+  .portfolio-home .concept-scene[data-motif='abyss'][data-section='skills'] .cs-items { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 12px; }
+  .portfolio-home .concept-scene[data-motif][data-section='gallery'] .cs-items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .portfolio-home .concept-scene[data-motif][data-section='skills'] .cs-meta { display: none; }
+  .portfolio-home .concept-scene[data-motif][data-section='skills'] .cs-object { padding: 8px; }
+  .portfolio-home .concept-scene[data-motif='horology'][data-section='skills'] .cs-object { padding: 20px 6px; }
+  .portfolio-home .section-viewport [class*='blur-'] { filter: none; }
+  .forest-page > section { padding-block: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-home .concept-scene[data-motif][data-section] .cs-item { animation: none; }
+}

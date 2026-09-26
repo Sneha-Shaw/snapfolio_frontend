@@ -149,25 +149,72 @@
   }
 }
 
-/* One repeating triangle silhouette = one treeline. Four of these, stacked
-   with different scale/blur/opacity/speed, is what makes the canopy read as
-   distance rather than as a single flat backdrop — the same principle a
-   matte painter uses for a tree line, done in gradients. */
-.forest-treeline {
-  background-image: repeating-linear-gradient(
-      to right,
-      transparent 0 11px,
-      currentColor 11px 12px,
-      transparent 12px 23px
-    ),
-    repeating-conic-gradient(from 135deg at 50% 100%, currentColor 0deg 22deg, transparent 22deg 90deg);
-  background-size:
-    23px 100%,
-    46px 100%;
-  background-repeat: repeat-x;
-  background-position: bottom;
-  -webkit-mask-image: linear-gradient(to top, #000 60%, transparent);
-  mask-image: linear-gradient(to top, #000 60%, transparent);
+/* -----------------------------------------------------------------------
+   TREES — actual silhouettes, not an abstract pattern.
+
+   The first pass used a repeating conic-gradient sawtooth for the canopy —
+   cheap to render, but it reads as a zigzag graph, not trees. These are two
+   hand-authored `clip-path` silhouettes (a tiered, jag-edged conifer and a
+   rounded, cauliflower-edged deciduous canopy) that `ForestTreeRow` (in
+   sections.tsx) instances many times per layer at varied scale/skew, so a
+   "treeline" is genuinely built from individual recognizable trees.
+   ----------------------------------------------------------------------- */
+
+.forest-pine {
+  clip-path: polygon(
+    50% 0%,
+    61% 15%, 52% 19%,
+    68% 30%, 55% 35%,
+    76% 47%, 60% 53%,
+    86% 65%, 66% 71%,
+    96% 84%, 74% 88%,
+    100% 100%,
+    0% 100%,
+    26% 88%, 4% 84%,
+    34% 71%, 14% 65%,
+    40% 53%, 24% 47%,
+    45% 35%, 32% 30%,
+    48% 19%, 39% 15%
+  );
+}
+
+.forest-round {
+  clip-path: polygon(
+    50% 6%,
+    68% 3%, 81% 13%, 90% 27%, 97% 35%,
+    91% 50%, 98% 63%,
+    85% 75%, 90% 87%,
+    69% 93%, 58% 100%,
+    42% 100%, 31% 93%,
+    10% 87%, 15% 75%,
+    2% 63%, 9% 50%,
+    3% 35%, 10% 27%, 19% 13%, 32% 3%
+  );
+}
+
+.forest-trunk {
+  background: currentColor;
+  opacity: 0.85;
+}
+
+/* One tree row = one depth layer. Atmospheric perspective is what actually
+   sells distance: the far layer is pale and desaturated, as if seen through
+   haze, and each layer forward gets darker, more saturated and less blurred
+   — the reverse of the first pass, which used near-black at BOTH the back
+   and front layers and so had no real depth ordering at all. */
+.forest-layer-far {
+  color: #3c4a38;
+  filter: blur(1.5px);
+}
+.forest-layer-mid-far {
+  color: #2a3a26;
+  filter: blur(0.75px);
+}
+.forest-layer-mid-near {
+  color: #17220f;
+}
+.forest-layer-near {
+  color: #070907;
 }
 
 .forest-mist {
@@ -242,8 +289,30 @@
    DISCOVERIES — project explorer, laid out as a path with sightings
    ----------------------------------------------------------------------- */
 
-.forest-path-track {
-  background: linear-gradient(90deg, transparent, var(--forest-rule) 20%, var(--forest-rule) 80%, transparent);
+/* THE TRAIL — one texture, reused as a persistent through-line.
+
+   The first pass had a path only in Discoveries, and even there it was a
+   1px hairline — visually almost nothing. This is a real worn-earth ribbon:
+   a warm tan-brown gradient (packed, lighter centre; looser, darker edges)
+   with fine directional grain, feathered top and bottom so instances can be
+   stacked section to section without a hard seam. `ForestTrailSegment` (in
+   sections.tsx) plants one of these — at a different x offset each time —
+   in every major section, so the trail is always somewhere in view: the
+   thing the whole page is a walk along, not a motif that shows up once. */
+.forest-trail {
+  background:
+    repeating-linear-gradient(112deg, rgba(0, 0, 0, 0.07) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(68deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 7px),
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(90, 68, 42, 0.5) 14%,
+      rgba(146, 116, 74, 0.65) 50%,
+      rgba(90, 68, 42, 0.5) 86%,
+      transparent
+    );
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
 }
 
 /* A sighting card: a torn/organic photo edge, not a rectangle — a rough
@@ -331,14 +400,25 @@
 
 .forest-ring-mark {
   border-radius: 9999px;
-  border: 1.5px solid transparent;
+  background: rgba(240, 242, 233, 0.28);
+  box-shadow: 0 0 0 3px var(--forest-void);
   transition:
-    border-color 0.3s var(--forest-ease-settle),
-    transform 0.3s var(--forest-ease-settle);
+    background 0.25s var(--forest-ease-settle),
+    box-shadow 0.25s var(--forest-ease-settle),
+    transform 0.25s var(--forest-ease-settle);
+}
+
+.forest-ring-mark:hover {
+  background: rgba(240, 242, 233, 0.55);
+  transform: translate(-50%, -50%) scale(1.2);
 }
 
 .forest-ring-mark[data-active='true'] {
-  border-color: var(--forest-amber);
+  background: var(--forest-amber);
+  box-shadow:
+    0 0 0 3px var(--forest-void),
+    0 0 14px 3px rgba(219, 168, 71, 0.55);
+  transform: translate(-50%, -50%) scale(1.3);
 }
 
 .forest-ring-pith {
