@@ -34,6 +34,24 @@ export default function Home() {
       ? presetLayout(previewTemplate)
       : resolveLayout(profile?.layout, profile?.template);
 
+  useEffect(() => {
+    if (profileLoading || !window.location.hash) return;
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = document.getElementById(id);
+    const viewport = target?.closest<HTMLElement>('.section-viewport');
+    if (viewport) window.dispatchEvent(new CustomEvent('portfolio:reveal-section', { detail: { id } }));
+    const anchor = viewport ?? target;
+    if (anchor) requestAnimationFrame(() => {
+      const root = document.scrollingElement;
+      if (!root) return;
+      const top = Math.max(0, root.scrollTop + anchor.getBoundingClientRect().top - 76);
+      const scrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      root.scrollTop = top;
+      requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = scrollBehavior; });
+    });
+  }, [profileLoading, searchParams]);
+
   const hasContact = layout.some((s) => s.enabled && s.section === 'contact');
   useEffect(() => {
     setCompactFooter?.(hasContact);

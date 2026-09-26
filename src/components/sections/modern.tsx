@@ -141,10 +141,6 @@ function Beam({ left, delay, duration }: { left: string; delay: number; duration
 
 function HeroBeam({ profile, projects }: SectionProps) {
   const lines = statementLines(profile);
-  const windowRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: windowRef, offset: ['start end', 'start 30%'] });
-  const rotateX = useTransform(scrollYProgress, [0, 1], [28, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
   const shots = pickProjects(projects, 3);
   const badge = profile?.heroCurrently || profile?.availability;
 
@@ -202,10 +198,23 @@ function HeroBeam({ profile, projects }: SectionProps) {
       </div>
 
       {shots.length > 0 && (
-        <div ref={windowRef} className="relative mx-auto mt-20 max-w-5xl px-6" style={{ perspective: 1200 }}>
+        <div className="relative mx-auto mt-20 max-w-5xl px-6" style={{ perspective: 1200 }}>
           <div className="absolute inset-x-20 top-10 h-40 rounded-full bg-[var(--color-accent)] opacity-25 blur-[90px]" />
+          {/* whileInView, not a scroll-linked useTransform: the previous version
+              tied rotation to the element's ABSOLUTE position on the page, so
+              if the visitor was already scrolled past that point when this
+              design mounted (switching designs in preview, or a route change
+              that doesn't reset scroll) it computed as "already flat" and the
+              tilt-in never visibly played. An intersection-based trigger fires
+              correctly every time the window actually enters view, regardless
+              of where the page happened to be scrolled to. Tilt angle bumped
+              from 28deg to 52deg for a much more dramatic reveal. */}
           <motion.div
-            style={{ rotateX, scale, transformOrigin: 'top center' }}
+            initial={{ rotateX: 52, scale: 0.88 }}
+            whileInView={{ rotateX: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-120px' }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: 'top center' }}
             className="relative overflow-hidden rounded-2xl border border-[var(--color-border-hover)] bg-[var(--color-bg-elevated)] shadow-2xl"
           >
             <div className="flex items-center gap-2 border-b border-[var(--color-border)] px-4 py-3">

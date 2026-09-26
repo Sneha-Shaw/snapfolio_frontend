@@ -22,17 +22,22 @@ export function SectionViewport({ children, section, eager = false }: { children
     const revealAnchor = () => {
       if (window.location.hash === `#${section}`) {
         setReady(true);
-        element.scrollIntoView({ block: 'start' });
+        element.scrollIntoView({ block: 'start', behavior: 'instant' });
       }
+    };
+    const revealRequested = (event: Event) => {
+      const requested = (event as CustomEvent<{ id?: string }>).detail?.id;
+      if (requested === section) setReady(true);
     };
     const click = (event: MouseEvent) => {
       const anchor = (event.target as Element).closest?.('a');
       if (anchor?.getAttribute('href') === `#${section}`) setReady(true);
     };
     revealAnchor();
+    window.addEventListener('portfolio:reveal-section', revealRequested);
     window.addEventListener('hashchange', revealAnchor);
     document.addEventListener('click', click);
-    return () => { load.disconnect(); visibility.disconnect(); document.removeEventListener('visibilitychange', update); window.removeEventListener('hashchange', revealAnchor); document.removeEventListener('click', click); };
+    return () => { load.disconnect(); visibility.disconnect(); document.removeEventListener('visibilitychange', update); window.removeEventListener('hashchange', revealAnchor); window.removeEventListener('portfolio:reveal-section', revealRequested); document.removeEventListener('click', click); };
   }, [section]);
 
   return <div ref={ref} className="section-viewport" data-section-kind={section} data-active={active} data-mounted={ready}>

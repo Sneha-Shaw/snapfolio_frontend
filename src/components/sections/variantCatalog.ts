@@ -22,7 +22,22 @@ export const HERO_VARIANTS: SectionVariant[] = [
   { ...{"id":"bento","name":"Bento","description":"Intro, photo, status and location as tiles."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "bento") },
   { ...{"id":"metro","name":"Metro tiles","description":"Windows-style flat live tiles."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "metro") },
   { ...{"id":"minimal","name":"Minimal","description":"Editorial type, text links, no effects."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "minimal") },
-  { ...{"id":"terminal","name":"Terminal","description":"`whoami` in a shell window."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "terminal") }
+  { ...{"id":"terminal","name":"Terminal","description":"`whoami` in a shell window."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "terminal") },
+  { ...{"id":"reveal","name":"Spotlight reveal ✦","description":"The headline is hidden in the dark; a soft light follows your cursor to find it."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "reveal") },
+  { ...{"id":"cinematic","name":"Cinematic zoom ✦","description":"A giant title fills the screen, then pulls back into the full scene as you scroll — the Apple keynote move."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "cinematic") },
+  { ...{"id":"word-reveal","name":"Kinetic reveal ✦","description":"Each line rises out from behind a hard crop, like a film title card."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "word-reveal") },
+  { ...{"id":"deck","name":"Card deck ✦","description":"Recent work as a physical stack of cards — drag the top one to swipe it away."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "deck") },
+  { ...{"id":"liquid","name":"Liquid + magnetic ✦","description":"A slowly morphing blob behind the headline; the buttons pull toward your cursor."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "liquid") },
+  { ...{"id":"terminal-deck","name":"Terminal deck ✦","description":"Terminal × card deck: swipe through project shell windows, each one’s `cat` output typed fresh."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "terminal-deck") },
+  { ...{"id":"cinematic-stack","name":"Cinematic stack ✦","description":"Cinematic zoom × card deck: the title pulls back on scroll to reveal a draggable stack of work beside it."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "cinematic-stack") },
+  { ...{"id":"glass-deck","name":"Glass deck ✦","description":"Glassmorphism × card deck: frosted project cards you can swipe through, floating over slow colour blobs."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "glass-deck") },
+  { ...{"id":"spotlight-bento","name":"Spotlight bento ✦","description":"Bento × spotlight reveal: the info grid is dimmed at rest and lights up wherever your cursor passes."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "spotlight-bento") },
+  { ...{"id":"beacon-marquee","name":"Beacon marquee ✦","description":"Marquee × spotlight beams: your giant scrolling name, swept by two slow rotating searchlights."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "beacon-marquee") },
+  { ...{"id":"liquid-glass","name":"Liquid glass ✦","description":"Apple’s Liquid Glass material — a specular sheen that tracks your cursor — over a true five-stop mesh gradient."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "liquid-glass") },
+  { ...{"id":"text-mask","name":"Text mask ✦","description":"Enormous type cut as a window onto your own photo, finished with real film grain."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "text-mask") },
+  { ...{"id":"mesh-bento","name":"Mesh bento ✦","description":"Bento × mesh gradient: every tile carries its own quiet colour wash and grain — the 2025 SaaS-hero look."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "mesh-bento") },
+  { ...{"id":"chrome-deck","name":"Chrome deck ✦","description":"The Y2K chrome revival × card deck: glossy holographic cards with a moving specular streak."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "chrome-deck") },
+  { ...{"id":"flow-field","name":"Flow field ✦","description":"A generative field of drifting hand-drawn-feeling strands behind spare, centred type."}, Component: deferred(() => import('./hero'), 'HERO_VARIANTS', "flow-field") }
 ];
 
 export const ABOUT_VARIANTS: SectionVariant[] = [

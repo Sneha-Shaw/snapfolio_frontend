@@ -196,6 +196,34 @@ a.cs-object:hover .cs-image img { transform: scale(1.04); }
 .concept-scene[data-motif='cirrus'][data-section='skills'] .cs-object { animation: cs-cloud 9s ease-in-out infinite alternate; animation-delay: var(--delay); }
 .concept-scene[data-motif='barometer'] .cs-object { border: 4px double var(--cs-muted); border-radius: 50% 50% 8px 8px; padding-top: 24px; }
 .concept-scene[data-motif='barometer'][data-section='stats'] .cs-object { border-radius: 50%; text-align: center; }
+/* ABOUT: a real instrument reading for the bio card — labelled scale, a
+   coloured sweep instead of plain white ticks — and small flat tag chips for
+   focus areas. A full dome-shaped gauge repeated once per focus area (just to
+   carry a single word like "Frontend") read as five near-identical, mostly
+   empty instruments; only the bio deserves the full instrument treatment. */
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-items { display: flex; flex-wrap: wrap; gap: 14px; }
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:first-child { flex-basis: 100%; }
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:first-child .cs-instrument {
+  height: 58px;
+  background: repeating-linear-gradient(90deg, var(--cs-muted) 0 1px, transparent 1px 10px),
+    linear-gradient(90deg, color-mix(in srgb, var(--cs-accent) 35%, transparent), transparent 58%);
+}
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:first-child .cs-instrument::before {
+  content: 'STATION READING \2014 LIVE';
+  position: absolute; top: -20px; left: 0;
+  font: 9px/1 monospace; letter-spacing: .14em; color: var(--cs-muted); opacity: .8;
+}
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:first-child .cs-instrument i { background: var(--cs-accent); box-shadow: 0 0 10px color-mix(in srgb, var(--cs-accent) 60%, transparent); }
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:not(:first-child) { width: auto; }
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:not(:first-child) .cs-object {
+  display: inline-flex; align-items: center; height: auto;
+  padding: 11px 20px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--cs-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--cs-accent) 8%, var(--cs-surface));
+}
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:not(:first-child) .cs-instrument,
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:not(:first-child) .cs-meta { display: none; }
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:not(:first-child) h3 { font-size: 13px; font-weight: 500; }
+.concept-scene[data-motif='barometer'][data-section='about'] .cs-item:not(:first-child) .cs-copy { padding: 0; }
 .cs-instrument { height: 44px; position: relative; margin: 12px 22px; background: repeating-linear-gradient(90deg, var(--cs-muted) 0 1px, transparent 1px 10px); opacity: .6; border-bottom: 1px solid var(--cs-muted); }
 .cs-instrument i { position: absolute; left: 55%; top: 0; width: 2px; height: 100%; background: var(--cs-accent); transform-origin: bottom; transform: rotate(-20deg); }
 .cs-instrument b { position: absolute; width: 14px; height: 14px; border-radius: 50%; border: 3px double var(--cs-muted); right: 0; bottom: -20px; }

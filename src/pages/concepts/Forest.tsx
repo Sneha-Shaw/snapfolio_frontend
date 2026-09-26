@@ -20,6 +20,7 @@ import {
 } from './forest/sections';
 import './forest.css';
 import '../compactPortfolio.css';
+import { SectionViewport } from '@/components/sections/SectionViewport';
 
 /**
  * Forest — a standalone flagship concept experience, reachable at
@@ -57,17 +58,17 @@ export default function Forest() {
   const exps = experiences ?? [];
 
   return (
-    <div className="forest-page" id="top">
-      <ForestArrival profile={profile} />
-      <ForestClearing profile={profile} experiences={exps} />
-      <ForestDiscoveries projects={projects ?? []} projectsLoading={projectsLoading} />
-      <ForestCloserLook projects={projects ?? []} projectsLoading={projectsLoading} />
-      <ForestGrove technologies={technologies ?? []} />
-      <ForestRings experiences={exps} />
-      <ForestPhilosophy profile={profile} />
-      <ForestPlayground />
-      <ForestExit profile={profile} socialLinks={socialLinks ?? []} />
-      <ForestFinalScene profile={profile} />
+    <div className="forest-page portfolio-home" id="top">
+      <SectionViewport section="arrival" eager><ForestArrival profile={profile} /></SectionViewport>
+      <SectionViewport section="clearing"><ForestClearing profile={profile} experiences={exps} /></SectionViewport>
+      <SectionViewport section="discoveries"><ForestDiscoveries projects={projects ?? []} projectsLoading={projectsLoading} /></SectionViewport>
+      <SectionViewport section="closer-look"><ForestCloserLook projects={projects ?? []} projectsLoading={projectsLoading} /></SectionViewport>
+      <SectionViewport section="grove"><ForestGrove technologies={technologies ?? []} /></SectionViewport>
+      <SectionViewport section="rings"><ForestRings experiences={exps} /></SectionViewport>
+      <SectionViewport section="field-notes"><ForestPhilosophy profile={profile} /></SectionViewport>
+      <SectionViewport section="playground"><ForestPlayground /></SectionViewport>
+      <SectionViewport section="exit"><ForestExit profile={profile} socialLinks={socialLinks ?? []} /></SectionViewport>
+      <SectionViewport section="final"><ForestFinalScene profile={profile} /></SectionViewport>
     </div>
   );
 }
