@@ -180,19 +180,78 @@ export interface SocialLink {
   updatedAt: string;
 }
 
+/** super_admin runs the platform; user is a subscriber managing their own portfolio. */
+export type Role = 'super_admin' | 'user';
+
 export interface AdminUser {
   id: string;
   name: string;
   email: string;
-  role: 'admin';
+  role: Role;
+  /** Subscription plan id; absent for the super admin. */
+  plan?: string;
+  /** Trial / paid status; `active` false once the trial (or plan) has ended. */
+  subscription: Subscription;
+  /** Public address of the portfolio: /p/<username>. */
+  username?: string;
+  /** Whether anyone with the link can view the portfolio. */
+  portfolioPublic: boolean;
+  /** Chosen during onboarding; the builder leads with designs made for it. Empty until chosen. */
+  profession: string;
 }
 
-export interface DashboardStats {
-  totalProjects: number;
-  publishedProjects: number;
-  draftProjects: number;
-  featuredProjects: number;
-  totalTechnologies: number;
-  totalExperience: number;
-  recentProjects: Pick<Project, '_id' | 'title' | 'slug' | 'published' | 'featured' | 'updatedAt' | 'thumbnail'>[];
+export type PlanInterval = 'trial' | 'month' | 'year';
+
+export interface Plan {
+  id: 'trial' | 'monthly' | 'yearly';
+  name: string;
+  /** 0 for the trial; otherwise per `interval`, in `currency`. */
+  price: number;
+  /** ISO 4217, e.g. 'INR'. */
+  currency: string;
+  interval: PlanInterval;
+  tagline: string;
+  features: string[];
+  highlighted?: boolean;
+  badge?: string;
+}
+
+/** Where an account stands — computed by the API. */
+export interface Subscription {
+  plan: Plan['id'] | null;
+  status: 'trialing' | 'active' | 'expired' | 'canceled' | 'none';
+  /** Trial end, the next renewal date, or (canceled) the last day of access. */
+  periodEnd: string | null;
+  daysLeft: number | null;
+  /** May use the service (edit, publish). */
+  active: boolean;
+  /** Monthly ↔ Yearly switch that takes effect at `periodEnd`. */
+  pendingPlan: 'monthly' | 'yearly' | null;
+  /** Canceled, still within the paid period — ends at `periodEnd` unless resumed. */
+  cancelAtPeriodEnd: boolean;
+  cardBrand?: string;
+  cardLast4?: string;
+}
+
+/** An account as the super admin sees it. */
+export interface ManagedUser {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  isActive: boolean;
+  subscription: Subscription | null;
+  projects: number;
+  createdAt: string;
+}
+
+export interface PlatformSummary {
+  total: number;
+  /** Paying (monthly + yearly). */
+  activeSubscriptions: number;
+  trialing: number;
+  expired: number;
+  currency: string;
+  byPlan: Record<string, number>;
+  mrr: number;
 }

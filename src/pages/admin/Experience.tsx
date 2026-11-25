@@ -1,20 +1,11 @@
 import { useCallback, useState, type FormEvent } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { notifyContentChanged } from '@/lib/contentEvents';
+import { Briefcase } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { DynamicStringList } from '@/components/admin/DynamicStringList';
 import { TechMultiSelect } from '@/components/admin/TechMultiSelect';
-import {
-  Badge,
-  Button,
-  Card,
-  ConfirmDialog,
-  EmptyState,
-  Input,
-  Modal,
-  PageSpinner,
-  Switch,
-  Textarea,
-} from '@/components/ui';
+import { Badge, Button, ConfirmDialog, Input, Modal, Switch, Textarea } from '@/components/ui';
+import { AddButton, RowActions, SectionEmpty, SectionLoading, SettingsSection } from '@/components/admin/SettingsSection';
 import { useFetch } from '@/hooks/useFetch';
 import { experienceService, type ExperienceInput } from '@/services/experience.service';
 import { technologyService } from '@/services/technology.service';
@@ -91,6 +82,7 @@ export default function Experience() {
       }
       setIsModalOpen(false);
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save experience');
     } finally {
@@ -104,6 +96,7 @@ export default function Experience() {
       await experienceService.remove(deleteTarget._id);
       toast.success('Experience deleted');
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to delete experience');
     }
@@ -113,55 +106,38 @@ export default function Experience() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-[var(--color-text)]">Experience</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">Manage your work history.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="size-4" />
-          Add experience
-        </Button>
-      </div>
-
-      {isLoading ? (
-        <PageSpinner />
-      ) : sorted.length === 0 ? (
-        <EmptyState title="No experience yet" description="Add your first work experience." />
-      ) : (
-        <Card className="divide-y divide-[var(--color-border)]">
-          {sorted.map((exp) => (
-            <div key={exp._id} className="flex items-center gap-4 px-5 py-4">
-              <div className="min-w-0 flex-1">
-                <p className="font-medium text-[var(--color-text)]">
-                  {exp.position} <span className="text-[var(--color-text-faint)]">@ {exp.company}</span>
-                </p>
-                <p className="text-xs text-[var(--color-text-faint)]">
-                  {formatDateRange(exp.startDate, exp.endDate, exp.current)}
-                  {exp.location ? ` · ${exp.location}` : ''}
-                </p>
+      <SettingsSection
+        title="Experience"
+        icon={Briefcase}
+        tone="amber"
+        description="Roles and companies you have worked with — shown on your portfolio newest first."
+        count={experiences?.length ?? 0}
+        action={<AddButton onClick={openCreate}>Add experience</AddButton>}
+      >
+        {isLoading ? (
+          <SectionLoading />
+        ) : sorted.length === 0 ? (
+          <SectionEmpty title="No experience yet" description="Add the roles you want visitors to see." actionLabel="Add experience" onAction={openCreate} />
+        ) : (
+          <div className="divide-y divide-[var(--color-border)]">
+            {sorted.map((exp) => (
+              <div key={exp._id} className="flex items-center gap-4 px-5 py-4">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-[var(--color-text)]">
+                    {exp.position} <span className="text-[var(--color-text-faint)]">@ {exp.company}</span>
+                  </p>
+                  <p className="text-xs text-[var(--color-text-faint)]">
+                    {formatDateRange(exp.startDate, exp.endDate, exp.current)}
+                    {exp.location ? ` · ${exp.location}` : ''}
+                  </p>
+                </div>
+                {exp.current && <Badge className="text-green-400">Current</Badge>}
+                <RowActions label={`${exp.position} at ${exp.company}`} onEdit={() => openEdit(exp)} onDelete={() => setDeleteTarget(exp)} />
               </div>
-              {exp.current && <Badge className="text-green-400">Current</Badge>}
-              <div className="flex shrink-0 gap-1">
-                <button
-                  onClick={() => openEdit(exp)}
-                  className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated-2)] hover:text-[var(--color-text)]"
-                  aria-label="Edit"
-                >
-                  <Pencil className="size-4" />
-                </button>
-                <button
-                  onClick={() => setDeleteTarget(exp)}
-                  className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
-                  aria-label="Delete"
-                >
-                  <Trash2 className="size-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </Card>
-      )}
+            ))}
+          </div>
+        )}
+      </SettingsSection>
 
       <Modal
         open={isModalOpen}

@@ -21,10 +21,14 @@ export function Switch({ checked, onChange, label, disabled }: SwitchProps) {
           checked ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-border-hover)]'
         )}
       >
+        {/* Anchored to the left edge explicitly — a button centres its content, so
+            an unanchored thumb would start mid-track. Track 36px, thumb 16px, 2px inset. */}
         <span
+          aria-hidden="true"
           className={cn(
-            'absolute top-0.5 size-4 rounded-full bg-white transition-transform',
-            checked ? 'translate-x-[18px]' : 'translate-x-0.5'
+            'absolute left-0.5 top-0.5 size-4 rounded-full shadow-sm transition-[transform,background-color]',
+            // On: the theme's readable-on-accent colour, so the thumb contrasts with any accent (light or dark).
+            checked ? 'translate-x-4 bg-[var(--color-on-accent)]' : 'translate-x-0 bg-white'
           )}
         />
       </button>

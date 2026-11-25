@@ -1,7 +1,9 @@
 import { useCallback, useState, type FormEvent } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { notifyContentChanged } from '@/lib/contentEvents';
+import { GraduationCap } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { Button, Card, ConfirmDialog, EmptyState, Input, Modal, PageSpinner, Textarea } from '@/components/ui';
+import { Button, ConfirmDialog, Input, Modal, Textarea } from '@/components/ui';
+import { AddButton, RowActions, SectionEmpty, SectionLoading, SettingsSection } from '@/components/admin/SettingsSection';
 import { useFetch } from '@/hooks/useFetch';
 import { educationService, type EducationInput } from '@/services/education.service';
 import type { Education as EducationModel } from '@/types/models';
@@ -69,6 +71,7 @@ export default function Education() {
       }
       setIsModalOpen(false);
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save education');
     } finally {
@@ -82,6 +85,7 @@ export default function Education() {
       await educationService.remove(deleteTarget._id);
       toast.success('Education deleted');
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to delete education');
     }
@@ -91,54 +95,37 @@ export default function Education() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-[var(--color-text)]">Education</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">Manage your education history.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="size-4" />
-          Add education
-        </Button>
-      </div>
-
-      {isLoading ? (
-        <PageSpinner />
-      ) : sorted.length === 0 ? (
-        <EmptyState title="No education yet" description="Add your first education entry." />
-      ) : (
-        <Card className="divide-y divide-[var(--color-border)]">
-          {sorted.map((edu) => (
-            <div key={edu._id} className="flex items-center gap-4 px-5 py-4">
-              <div className="min-w-0 flex-1">
-                <p className="font-medium text-[var(--color-text)]">
-                  {edu.degree}
-                  {edu.field ? `, ${edu.field}` : ''}
-                </p>
-                <p className="text-xs text-[var(--color-text-faint)]">
-                  {edu.institution} · {formatDateRange(edu.startDate, edu.endDate, false)}
-                </p>
+      <SettingsSection
+        title="Education"
+        icon={GraduationCap}
+        tone="sky"
+        description="Degrees, courses and certifications."
+        count={education?.length ?? 0}
+        action={<AddButton onClick={openCreate}>Add education</AddButton>}
+      >
+        {isLoading ? (
+          <SectionLoading />
+        ) : sorted.length === 0 ? (
+          <SectionEmpty title="No education yet" description="Add a degree, course or certification." actionLabel="Add education" onAction={openCreate} />
+        ) : (
+          <div className="divide-y divide-[var(--color-border)]">
+            {sorted.map((edu) => (
+              <div key={edu._id} className="flex items-center gap-4 px-5 py-4">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-[var(--color-text)]">
+                    {edu.degree}
+                    {edu.field ? `, ${edu.field}` : ''}
+                  </p>
+                  <p className="text-xs text-[var(--color-text-faint)]">
+                    {edu.institution} · {formatDateRange(edu.startDate, edu.endDate, false)}
+                  </p>
+                </div>
+                <RowActions label={edu.degree} onEdit={() => openEdit(edu)} onDelete={() => setDeleteTarget(edu)} />
               </div>
-              <div className="flex shrink-0 gap-1">
-                <button
-                  onClick={() => openEdit(edu)}
-                  className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated-2)] hover:text-[var(--color-text)]"
-                  aria-label="Edit"
-                >
-                  <Pencil className="size-4" />
-                </button>
-                <button
-                  onClick={() => setDeleteTarget(edu)}
-                  className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
-                  aria-label="Delete"
-                >
-                  <Trash2 className="size-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </Card>
-      )}
+            ))}
+          </div>
+        )}
+      </SettingsSection>
 
       <Modal
         open={isModalOpen}

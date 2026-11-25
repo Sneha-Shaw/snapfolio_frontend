@@ -1,8 +1,8 @@
 {
-  "name": "portfolio-client",
+  "name": "portfolio-builder",
   "private": true,
   "version": "1.0.0",
-  "description": "React/Vite client for the portfolio site and admin CMS.",
+  "description": "Portfolio builder \u2014 admin CMS where users design and edit their portfolio (300 section designs, presets, layout picker).",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { useFetch } from '@/hooks/useFetch';
+import { profileService } from '@/services/profile.service';
+import { usePortfolioBase } from '@/lib/portfolioBase';
 
-const NAV_LINKS = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/work', label: 'Work', end: false },
-];
-
+// Shown on portfolio pages — the admin preview and shared /p/:username pages.
 export function Navbar() {
+  const base = usePortfolioBase();
+  const NAV_LINKS = [
+    { to: base, label: 'Home', end: true },
+    { to: `${base}/work`, label: 'Work', end: false },
+  ];
+  const { data: profile } = useFetch(() => profileService.get(), []);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -29,8 +34,9 @@ export function Navbar() {
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link to="/" className="font-mono text-sm font-semibold tracking-tight text-[var(--color-text)]">
-          arnab<span className="text-[var(--color-accent)]">.dev</span>
+        <Link to={base} className="font-mono text-sm font-semibold tracking-tight text-[var(--color-text)]">
+          {profile?.name || 'Portfolio'}
+          <span className="text-[var(--color-accent)]">.</span>
         </Link>
 
         <div className="hidden items-center gap-1 sm:flex">
@@ -52,7 +58,7 @@ export function Navbar() {
             </NavLink>
           ))}
           <a
-            href="/#contact"
+            href="#contact"
             className="ml-2 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-[var(--color-on-accent)] transition-colors hover:bg-[var(--color-accent-strong)] hover:text-[var(--color-on-accent-strong)]"
           >
             Get in touch

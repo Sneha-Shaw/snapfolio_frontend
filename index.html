@@ -4,14 +4,28 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Arnab Das — Software Engineer building full-stack, AI-powered, and data-driven products." />
+    <meta name="description" content="Foliocraft — build a portfolio in your own style from hundreds of section designs, layouts and themes." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Arnab Das — Software Engineer</title>
+    <title>Foliocraft — portfolios in your own style</title>
+    <script>
+      // Paint the app's light/dark mode before the bundle loads, so there's no dark flash
+      // for light-mode users. Mirrors APP_THEMES + MODE_KEY in src/context/ThemeContext.tsx.
+      (function () {
+        try {
+          var mode = localStorage.getItem('app:theme-mode') || 'system';
+          var dark = mode === 'dark' || (mode !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+          var root = document.documentElement.style;
+          root.colorScheme = dark ? 'dark' : 'light';
+          root.setProperty('--color-bg', dark ? '#08080a' : '#f6f7f9');
+          root.setProperty('--color-text', dark ? '#f7f7f8' : '#111114');
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

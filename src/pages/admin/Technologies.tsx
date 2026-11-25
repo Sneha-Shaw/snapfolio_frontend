@@ -1,8 +1,10 @@
 import { useCallback, useMemo, useState, type FormEvent } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { notifyContentChanged } from '@/lib/contentEvents';
+import { Cpu } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { getTechIcon } from '@/lib/techIcons';
-import { Badge, Button, Card, ConfirmDialog, EmptyState, Input, Modal, PageSpinner, Select, Switch } from '@/components/ui';
+import { Badge, Button, ConfirmDialog, Input, Modal, Select, Switch } from '@/components/ui';
+import { AddButton, RowActions, SectionEmpty, SectionLoading, SettingsSection } from '@/components/admin/SettingsSection';
 import { useFetch } from '@/hooks/useFetch';
 import { technologyService, type TechnologyInput } from '@/services/technology.service';
 import { TECH_CATEGORIES, type Technology } from '@/types/models';
@@ -90,6 +92,7 @@ export default function Technologies() {
       }
       setIsModalOpen(false);
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save technology');
     } finally {
@@ -103,6 +106,7 @@ export default function Technologies() {
       await technologyService.remove(deleteTarget._id);
       toast.success('Technology deleted');
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to delete technology');
     }
@@ -110,63 +114,46 @@ export default function Technologies() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-[var(--color-text)]">Technologies</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">Manage the technology tags used across projects.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="size-4" />
-          Add technology
-        </Button>
-      </div>
-
-      {isLoading ? (
-        <PageSpinner />
-      ) : grouped.length === 0 ? (
-        <EmptyState title="No technologies yet" description="Add your first technology." />
-      ) : (
-        <div className="space-y-6">
-          {grouped.map(([category, items]) => (
-            <div key={category}>
-              <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-faint)]">
-                {CATEGORY_LABELS[category] ?? category}
-              </h2>
-              <Card className="divide-y divide-[var(--color-border)]">
-                {items.map((tech) => {
-                  const Icon = getTechIcon(tech.slug, tech.category);
-                  return (
-                    <div key={tech._id} className="flex items-center gap-4 px-5 py-3">
-                      <Icon className="size-5 shrink-0 text-[var(--color-text-muted)]" />
-                      <div className="min-w-0 flex-1">
-                        <p className="font-medium text-[var(--color-text)]">{tech.name}</p>
-                        <p className="font-mono text-xs text-[var(--color-text-faint)]">{tech.slug}</p>
+      <SettingsSection
+        title="Technologies"
+        icon={Cpu}
+        tone="pink"
+        description="Tags you attach to projects and roles — they show as icons on your portfolio."
+        count={technologies?.length ?? 0}
+        action={<AddButton onClick={openCreate}>Add technology</AddButton>}
+      >
+        {isLoading ? (
+          <SectionLoading />
+        ) : grouped.length === 0 ? (
+          <SectionEmpty title="No technologies yet" description="Add the tools and languages you work with." actionLabel="Add technology" onAction={openCreate} />
+        ) : (
+          <div className="divide-y divide-[var(--color-border)]">
+            {grouped.map(([category, items]) => (
+              <div key={category}>
+                <h3 className="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated-2)]/40 px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-faint)]">
+                  {CATEGORY_LABELS[category] ?? category} <span className="font-normal normal-case tracking-normal">· {items.length}</span>
+                </h3>
+                <div className="divide-y divide-[var(--color-border)]">
+                  {items.map((tech) => {
+                    const Icon = getTechIcon(tech.slug, tech.category);
+                    return (
+                      <div key={tech._id} className="flex items-center gap-4 px-5 py-3">
+                        <Icon className="size-5 shrink-0 text-[var(--color-text-muted)]" />
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-[var(--color-text)]">{tech.name}</p>
+                          <p className="font-mono text-xs text-[var(--color-text-faint)]">{tech.slug}</p>
+                        </div>
+                        {!tech.enabled && <Badge>Disabled</Badge>}
+                        <RowActions label={tech.name} onEdit={() => openEdit(tech)} onDelete={() => setDeleteTarget(tech)} />
                       </div>
-                      {!tech.enabled && <Badge>Disabled</Badge>}
-                      <div className="flex shrink-0 gap-1">
-                        <button
-                          onClick={() => openEdit(tech)}
-                          className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated-2)] hover:text-[var(--color-text)]"
-                          aria-label="Edit"
-                        >
-                          <Pencil className="size-4" />
-                        </button>
-                        <button
-                          onClick={() => setDeleteTarget(tech)}
-                          className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
-                          aria-label="Delete"
-                        >
-                          <Trash2 className="size-4" />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </Card>
-            </div>
-          ))}
-        </div>
-      )}
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </SettingsSection>
 
       <Modal
         open={isModalOpen}

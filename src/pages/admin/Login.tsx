@@ -1,8 +1,10 @@
 import { useState, type FormEvent } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Button, Input } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
+import { PRODUCT_NAME } from '@/config/product';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 
 export default function Login() {
   const { login } = useAuth();
@@ -28,13 +30,14 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] px-4">
+    <div className="relative flex min-h-screen items-center justify-center bg-[var(--color-bg)] px-4">
+      <ThemeToggle className="absolute right-4 top-4" />
       <div className="w-full max-w-sm rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-8 shadow-2xl">
         <div className="mb-6 text-center">
           <p className="font-mono text-lg font-semibold text-[var(--color-text)]">
-            arnab<span className="text-[var(--color-accent)]">.dev</span>
+            {PRODUCT_NAME}
           </p>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">Sign in to the admin console</p>
+          <p className="mt-1 text-sm text-[var(--color-text-muted)]">Sign in to your workspace</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -58,6 +61,9 @@ export default function Login() {
             Sign in
           </Button>
         </form>
+        <p className="mt-6 text-center text-xs text-[var(--color-text-faint)]">
+          New here? <Link to="/#pricing" className="underline hover:text-[var(--color-text)]">Choose a plan</Link>
+        </p>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ function ListEditor<T>({
   empty,
   addLabel,
   renderItem,
+  framed = true,
 }: {
   title: string;
   hint: string;
@@ -21,6 +22,8 @@ function ListEditor<T>({
   empty: T;
   addLabel: string;
   renderItem: (item: T, update: (patch: Partial<T>) => void) => ReactNode;
+  /** false: no card or heading — for embedding in a page that supplies its own. */
+  framed?: boolean;
 }) {
   const iconBtn =
     'rounded-md p-1.5 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated-2)] hover:text-[var(--color-text)] disabled:opacity-30';
@@ -31,12 +34,15 @@ function ListEditor<T>({
     onChange(next);
   };
 
+  const Frame = framed ? Card : 'div';
   return (
-    <Card className="space-y-4 p-5">
-      <div>
-        <h2 className="text-sm font-semibold text-[var(--color-text)]">{title}</h2>
-        <p className="mt-1 text-xs text-[var(--color-text-faint)]">{hint}</p>
-      </div>
+    <Frame className={framed ? 'space-y-4 p-5' : 'space-y-3'}>
+      {framed && (
+        <div>
+          <h2 className="text-sm font-semibold text-[var(--color-text)]">{title}</h2>
+          <p className="mt-1 text-xs text-[var(--color-text-faint)]">{hint}</p>
+        </div>
+      )}
       {items.map((item, i) => (
         <div key={i} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4">
           <div className="mb-3 flex items-center justify-between">
@@ -63,13 +69,14 @@ function ListEditor<T>({
       >
         <Plus className="size-4" /> {addLabel}
       </button>
-    </Card>
+    </Frame>
   );
 }
 
-export function ServicesEditor({ value, onChange }: { value: Service[]; onChange: (v: Service[]) => void }) {
+export function ServicesEditor({ value, onChange, framed }: { value: Service[]; onChange: (v: Service[]) => void; framed?: boolean }) {
   return (
     <ListEditor
+      framed={framed}
       title="Services"
       hint="Shown by the Services section. Leave empty to fall back to your focus areas (titles only)."
       items={value}
@@ -86,9 +93,10 @@ export function ServicesEditor({ value, onChange }: { value: Service[]; onChange
   );
 }
 
-export function TestimonialsEditor({ value, onChange }: { value: Testimonial[]; onChange: (v: Testimonial[]) => void }) {
+export function TestimonialsEditor({ value, onChange, framed }: { value: Testimonial[]; onChange: (v: Testimonial[]) => void; framed?: boolean }) {
   return (
     <ListEditor
+      framed={framed}
       title="Testimonials"
       hint="Quotes from clients, managers or teammates. The Testimonials section is hidden until you add at least one."
       items={value}

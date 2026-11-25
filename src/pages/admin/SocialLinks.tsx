@@ -1,7 +1,9 @@
 import { useCallback, useState, type FormEvent } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { notifyContentChanged } from '@/lib/contentEvents';
+import { Link2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { Badge, Button, Card, ConfirmDialog, EmptyState, Input, Modal, PageSpinner, Select, Switch } from '@/components/ui';
+import { Badge, Button, ConfirmDialog, Input, Modal, Select, Switch } from '@/components/ui';
+import { AddButton, RowActions, SectionEmpty, SectionLoading, SettingsSection } from '@/components/admin/SettingsSection';
 import { useFetch } from '@/hooks/useFetch';
 import { socialLinkService, type SocialLinkInput } from '@/services/socialLink.service';
 import { SOCIAL_PLATFORMS, type SocialLink } from '@/types/models';
@@ -74,6 +76,7 @@ export default function SocialLinks() {
       }
       setIsModalOpen(false);
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save social link');
     } finally {
@@ -87,6 +90,7 @@ export default function SocialLinks() {
       await socialLinkService.remove(deleteTarget._id);
       toast.success('Social link deleted');
       refetch();
+      notifyContentChanged();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to delete social link');
     }
@@ -96,51 +100,34 @@ export default function SocialLinks() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-[var(--color-text)]">Social Links</h1>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">Manage links shown on your public site.</p>
-        </div>
-        <Button onClick={openCreate}>
-          <Plus className="size-4" />
-          Add link
-        </Button>
-      </div>
-
-      {isLoading ? (
-        <PageSpinner />
-      ) : sorted.length === 0 ? (
-        <EmptyState title="No social links yet" description="Add your first social link." />
-      ) : (
-        <Card className="divide-y divide-[var(--color-border)]">
-          {sorted.map((link) => (
-            <div key={link._id} className="flex items-center gap-4 px-5 py-3.5">
-              <Badge>{PLATFORM_LABELS[link.platform] ?? link.platform}</Badge>
-              <div className="min-w-0 flex-1">
-                <p className="font-medium text-[var(--color-text)]">{link.label}</p>
-                <p className="truncate text-xs text-[var(--color-text-faint)]">{link.url}</p>
+      <SettingsSection
+        title="Social links"
+        icon={Link2}
+        tone="teal"
+        description="Profiles and contact links shown on your portfolio."
+        count={links?.length ?? 0}
+        action={<AddButton onClick={openCreate}>Add link</AddButton>}
+      >
+        {isLoading ? (
+          <SectionLoading />
+        ) : sorted.length === 0 ? (
+          <SectionEmpty title="No links yet" description="Add GitHub, LinkedIn, email and more." actionLabel="Add link" onAction={openCreate} />
+        ) : (
+          <div className="divide-y divide-[var(--color-border)]">
+            {sorted.map((link) => (
+              <div key={link._id} className="flex items-center gap-4 px-5 py-3.5">
+                <Badge>{PLATFORM_LABELS[link.platform] ?? link.platform}</Badge>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-[var(--color-text)]">{link.label}</p>
+                  <p className="truncate text-xs text-[var(--color-text-faint)]">{link.url}</p>
+                </div>
+                {!link.enabled && <Badge>Disabled</Badge>}
+                <RowActions label={link.label || link.platform} onEdit={() => openEdit(link)} onDelete={() => setDeleteTarget(link)} />
               </div>
-              {!link.enabled && <Badge>Disabled</Badge>}
-              <div className="flex shrink-0 gap-1">
-                <button
-                  onClick={() => openEdit(link)}
-                  className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated-2)] hover:text-[var(--color-text)]"
-                  aria-label="Edit"
-                >
-                  <Pencil className="size-4" />
-                </button>
-                <button
-                  onClick={() => setDeleteTarget(link)}
-                  className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
-                  aria-label="Delete"
-                >
-                  <Trash2 className="size-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </Card>
-      )}
+            ))}
+          </div>
+        )}
+      </SettingsSection>
 
       <Modal
         open={isModalOpen}

@@ -5,6 +5,7 @@ import { ArrowUp, ArrowUpRight, Github, Linkedin, Link as LinkIcon, Mail, Twitte
 import { Globe } from '@/components/aceternity/Globe';
 import { MOTIF_KITS } from '@/components/sections/kits';
 import { cn } from '@/utils/cn';
+import { usePortfolioBase } from '@/lib/portfolioBase';
 import type { Profile, SocialLink, SocialPlatform } from '@/types/models';
 
 /**
@@ -44,12 +45,16 @@ const PLATFORM_ICONS: Record<SocialPlatform, ComponentType<{ className?: string 
   other: LinkIcon,
 };
 
-const NAV = [
-  { to: '/', label: 'Home' },
-  { to: '/work', label: 'Work' },
-  { to: '/#about', label: 'About' },
-  { to: '/#contact', label: 'Contact' },
-];
+/** Footer links, relative to where the portfolio lives (preview or a shared page). */
+function useNav() {
+  const base = usePortfolioBase();
+  return [
+    { to: base, label: 'Home' },
+    { to: `${base}/work`, label: 'Work' },
+    { to: `${base}#about`, label: 'About' },
+    { to: `${base}#contact`, label: 'Contact' },
+  ];
+}
 
 /** Platforms with a recognisable mark, in the order people look for them. */
 const PRIORITY: SocialPlatform[] = ['github', 'linkedin', 'twitter', 'email', 'portfolio', 'other'];
@@ -173,6 +178,7 @@ function FooterClassic({ profile, links, compact }: FooterProps) {
 // ---------------------------------------------------------------------------
 
 function FooterWordmark({ profile, links, compact }: FooterProps) {
+  const NAV = useNav();
   const first = nameOf(profile).split(' ')[0] ?? 'Portfolio';
   /* ~0.66em per capital at this tracking, so this fills the width. */
   const size = `min(26rem, ${(148 / Math.max(first.length, 3)).toFixed(1)}vw)`;
@@ -301,6 +307,7 @@ function FooterTicker({ profile, links, compact }: FooterProps) {
 // ---------------------------------------------------------------------------
 
 function FooterSpotlight({ profile, links, compact }: FooterProps) {
+  const NAV = useNav();
   const email = emailOf(profile);
   return (
     <footer className="relative">
@@ -340,7 +347,7 @@ function FooterSpotlight({ profile, links, compact }: FooterProps) {
         )}
 
         <div className="flex flex-col items-center justify-between gap-6 py-10 sm:flex-row">
-          <Link to="/" className="whitespace-nowrap text-sm font-semibold text-[var(--color-text)]">
+          <Link to={NAV[0]!.to} className="whitespace-nowrap text-sm font-semibold text-[var(--color-text)]">
             {nameOf(profile)}
           </Link>
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
@@ -363,6 +370,7 @@ function FooterSpotlight({ profile, links, compact }: FooterProps) {
 // ---------------------------------------------------------------------------
 
 function FooterColumns({ profile, links, compact }: FooterProps) {
+  const NAV = useNav();
   const email = emailOf(profile);
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
@@ -546,6 +554,7 @@ function FooterMinimal({ profile, links }: FooterProps) {
 // ---------------------------------------------------------------------------
 
 function FooterMotif(props: FooterProps) {
+  const NAV = useNav();
   const kit = MOTIF_KITS.find((k) => k.id === props.template);
   if (!kit) return <FooterSpotlight {...props} />;
 

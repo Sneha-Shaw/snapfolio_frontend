@@ -113,7 +113,7 @@ export default function ProjectForm() {
         await projectService.create(payload);
         toast.success('Project created');
       }
-      navigate('/admin/projects');
+      navigate('/admin/personal#projects');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save project');
     } finally {
@@ -264,7 +264,7 @@ export default function ProjectForm() {
         </Card>
 
         <div className="flex justify-end gap-3">
-          <Button type="button" variant="ghost" onClick={() => navigate('/admin/projects')}>
+          <Button type="button" variant="ghost" onClick={() => navigate('/admin/personal#projects')}>
             Cancel
           </Button>
           <Button type="submit" isLoading={isSubmitting}>
