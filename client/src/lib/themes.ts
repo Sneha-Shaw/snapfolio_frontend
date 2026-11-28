@@ -48,6 +48,7 @@ export const THEME_PRESETS: ThemePreset[] = [
 
   // Environment — tuned to the ✺ place motifs.
   { id: 'abyss', name: 'Abyss', group: 'concept', accent: '#38e1d0', accentStrong: '#0b7fa8', background: '#01121c', font: 'grotesk', radius: 'soft' },
+  { id: 'arnab', name: 'Arnab', group: 'concept', accent: '#f5a54a', accentStrong: '#d9822b', background: '#070b1c', font: 'grotesk', radius: 'rounded' },
   { id: 'woodland', name: 'Woodland', group: 'concept', accent: '#8fbf5a', accentStrong: '#3f6b32', background: '#0a1109', font: 'serif', radius: 'rounded' },
   { id: 'dune', name: 'Dune', group: 'concept', accent: '#f0b955', accentStrong: '#c06e2a', background: '#1a1108', font: 'grotesk', radius: 'soft' },
   { id: 'summit', name: 'Summit', group: 'concept', accent: '#9ec5e8', accentStrong: '#4a7ca8', background: '#0b1219', font: 'sans', radius: 'sharp' },

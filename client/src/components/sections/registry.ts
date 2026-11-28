@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import {
   HERO_VARIANTS,
   ABOUT_VARIANTS,
@@ -106,7 +107,11 @@ import {
 import type { SectionVariant } from './shared';
 import { conceptVariant } from './conceptScenes';
 
+// Loaded on demand: it carries a canvas engine and ~7 MB of frames that other designs never need.
+const ArnabStudioHero = lazy(() => import('./arnabStudio').then((m) => ({ default: m.ArnabStudioHero })));
+
 const CONCEPT_HERO: SectionVariant[] = [
+  { id: 'arnab-studio', name: 'Arnab studio ✺', description: 'A night-time studio where an animated character turns his head to follow your cursor.', Component: ArnabStudioHero },
   { id: 'living-tree', name: 'Living tree ✺', description: 'A branching canopy introduces the person behind the work.', Component: conceptVariant('canopy', 'hero') },
   { id: 'flower-opening', name: 'Flower opening ✺', description: 'An introduction inside a flowering garden.', Component: conceptVariant('bloom', 'hero') },
   { id: 'artist-canvas', name: 'Artist canvas ✺', description: 'A hanging canvas opens the exhibition.', Component: conceptVariant('salon', 'hero') },
