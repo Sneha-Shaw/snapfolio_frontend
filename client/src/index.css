@@ -2869,3 +2869,172 @@ html[data-theme-mode='light'] .mat-noise::after {
 .on-paper .text-\[var\(--color-accent\)\] {
   color: var(--color-accent-strong);
 }
+
+/* ---------------------------------------------------------------------------
+   Landing-page motion. Techniques (expo-out easing, marquee, float, sheen,
+   hover lift) common to modern product sites; values are our own.
+   --------------------------------------------------------------------------- */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.25, 0, 0, 1);
+}
+
+@keyframes lp-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.lp-marquee-track {
+  animation: lp-marquee var(--marquee-seconds, 50s) linear infinite;
+}
+.lp-marquee-reverse {
+  animation-direction: reverse;
+}
+.lp-marquee:hover .lp-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes lp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.lp-float {
+  animation: lp-float 6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Soft aurora behind the hero. */
+@keyframes lp-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.08);
+  }
+}
+.lp-aurora {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 70%;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.55;
+  background:
+    radial-gradient(40% 60% at 25% 40%, color-mix(in srgb, var(--lp-accent) 45%, transparent), transparent 70%),
+    radial-gradient(35% 55% at 75% 30%, color-mix(in srgb, var(--lp-ink) 14%, transparent), transparent 70%);
+  animation: lp-drift 14s ease-in-out infinite;
+}
+
+/* Button: a light sheen sweeps across on hover, arrow nudges forward. */
+.lp-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.45s var(--ease-soft), box-shadow 0.45s var(--ease-soft), background-color 0.4s var(--ease-soft);
+}
+.lp-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+  pointer-events: none;
+}
+.lp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -12px var(--lp-accent);
+}
+.lp-btn:hover::after {
+  transform: translateX(120%);
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.lp-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+.lp-btn .lp-arrow {
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.lp-btn:hover .lp-arrow {
+  transform: translateX(4px);
+}
+
+/* Card: lifts on hover; the preview inside zooms slightly. */
+.lp-card {
+  transition: transform 0.6s var(--ease-out-expo), border-color 0.4s var(--ease-soft), box-shadow 0.6s var(--ease-out-expo);
+}
+.lp-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--lp-accent) 55%, var(--lp-line));
+  box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--lp-ink) 45%, transparent);
+}
+.lp-card .lp-zoom {
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.lp-card:hover .lp-zoom {
+  transform: scale(1.035);
+}
+
+/* Nav links: the underline grows from the left. */
+.lp-link {
+  position: relative;
+  transition: color 0.4s var(--ease-soft);
+}
+.lp-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.lp-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Headline lines slide up from a clipped mask. */
+@keyframes lp-line-in {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.lp-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.lp-line > span {
+  display: block;
+  animation: lp-line-in 1s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-marquee-track,
+  .lp-float,
+  .lp-aurora,
+  .lp-line > span {
+    animation: none;
+  }
+  .lp-btn,
+  .lp-card,
+  .lp-card .lp-zoom {
+    transition: none;
+  }
+  .lp-btn:hover,
+  .lp-card:hover {
+    transform: none;
+  }
+}

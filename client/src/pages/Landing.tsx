@@ -10,6 +10,9 @@ import { FOOTER_DESIGNS } from '@/components/site/footers';
 import { THEME_PRESETS } from '@/lib/themes';
 import { PRODUCT_NAME } from '@/config/product';
 import { cn } from '@/utils/cn';
+import { Reveal } from '@/components/motion/Reveal';
+import { CountUp } from '@/components/motion/CountUp';
+import { Marquee } from '@/components/motion/Marquee';
 import { perMonthNote, priceLabel } from '@/lib/plans';
 import type { Plan } from '@/types/models';
 
@@ -75,9 +78,9 @@ export default function Landing() {
             {PRODUCT_NAME}
           </Link>
           <nav className="hidden items-center gap-7 text-sm text-[var(--lp-muted)] md:flex">
-            <a href="#features" className="hover:text-[var(--lp-ink)]">Features</a>
-            <a href="#layouts" className="hover:text-[var(--lp-ink)]">Layouts</a>
-            <a href="#pricing" className="hover:text-[var(--lp-ink)]">Pricing</a>
+            <a href="#features" className="lp-link hover:text-[var(--lp-ink)]">Features</a>
+            <a href="#layouts" className="lp-link hover:text-[var(--lp-ink)]">Layouts</a>
+            <a href="#pricing" className="lp-link hover:text-[var(--lp-ink)]">Pricing</a>
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle className="mr-1 hidden sm:inline-flex" />
@@ -101,31 +104,47 @@ export default function Landing() {
 
       <main>
         {/* Hero */}
-        <section className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pt-24">
-          <p className="inline-flex items-center gap-2 rounded-full border border-[var(--lp-line)] bg-[var(--lp-surface)] px-3 py-1 text-xs font-medium text-[var(--lp-muted)]">
-            <Sparkles className="size-3.5 text-[var(--lp-accent)]" /> A portfolio builder for people with taste
-          </p>
+        <section className="relative isolate mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pt-24">
+          <div className="lp-aurora" aria-hidden="true" />
+          <Reveal delay={0.05} duration={0.9}>
+            <p className="inline-flex items-center gap-2 rounded-full border border-[var(--lp-line)] bg-[var(--lp-surface)] px-3 py-1 text-xs font-medium text-[var(--lp-muted)]">
+              <Sparkles className="lp-float size-3.5 text-[var(--lp-accent)]" /> A portfolio builder for people with taste
+            </p>
+          </Reveal>
           <h1 className={`mt-6 max-w-4xl ${SERIF} text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl`}>
-            Your portfolio, in a style <em className="text-[var(--lp-accent)]">nobody else</em> has.
+            <span className="lp-line" style={{ ['--d' as string]: '0.1s' }}>
+              <span>Your portfolio, in a style</span>
+            </span>
+            <span className="lp-line" style={{ ['--d' as string]: '0.22s' }}>
+              <span>
+                <em className="text-[var(--lp-accent)]">nobody else</em> has.
+              </span>
+            </span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--lp-muted)]">
-            Build a personal site from {DESIGN_COUNT} section designs, {LAYOUT_PRESETS.length} layouts and {THEME_PRESETS.length} themes —
-            then tune every colour, font and corner. No code, no template that looks like everyone else's.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#pricing" className="inline-flex items-center gap-2 rounded-full bg-[var(--lp-accent)] px-6 py-3 text-sm font-semibold text-[var(--lp-accent-ink)] hover:opacity-90">
-              Start building <ArrowRight className="size-4" />
-            </a>
-            <a href="#layouts" className="inline-flex items-center gap-2 rounded-full border border-[var(--lp-line)] px-6 py-3 text-sm font-semibold hover:bg-[var(--lp-surface)]">
-              Browse layouts
-            </a>
-          </div>
+          <Reveal delay={0.45} y={18} duration={0.9}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--lp-muted)]">
+              Build a personal site from {DESIGN_COUNT} section designs, {LAYOUT_PRESETS.length} layouts and {THEME_PRESETS.length} themes —
+              then tune every colour, font and corner. No code, no template that looks like everyone else's.
+            </p>
+          </Reveal>
+          <Reveal delay={0.6} y={18} duration={0.9}>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#pricing" className="lp-btn inline-flex items-center gap-2 rounded-full bg-[var(--lp-accent)] px-6 py-3 text-sm font-semibold text-[var(--lp-accent-ink)]">
+                Start building <ArrowRight className="lp-arrow size-4" />
+              </a>
+              <a href="#layouts" className="lp-btn inline-flex items-center gap-2 rounded-full border border-[var(--lp-line)] px-6 py-3 text-sm font-semibold hover:bg-[var(--lp-surface)]">
+                Browse layouts
+              </a>
+            </div>
+          </Reveal>
 
           <dl className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[var(--lp-line)] bg-[var(--lp-line)] sm:grid-cols-4">
             {COUNTS.map((c) => (
               <div key={c.label} className="bg-[var(--lp-surface)] p-5">
                 <dt className="text-sm text-[var(--lp-muted)]">{c.label}</dt>
-                <dd className={`mt-1 ${SERIF} text-4xl font-semibold tabular-nums`}>{c.value}</dd>
+                <dd className={`mt-1 ${SERIF} text-4xl font-semibold tabular-nums`}>
+                  <CountUp value={c.value} />
+                </dd>
               </div>
             ))}
           </dl>
@@ -135,30 +154,30 @@ export default function Landing() {
         <section className="border-y border-[var(--lp-line)] bg-[var(--lp-surface)]">
           <ol className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:grid-cols-3 sm:px-6">
             {STEPS.map((s, i) => (
-              <li key={s.title} className="flex gap-4">
+              <Reveal as="li" key={s.title} delay={i * 0.1} className="flex gap-4">
                 <span className={`${SERIF} text-3xl font-semibold text-[var(--lp-accent)]`}>{i + 1}</span>
                 <div>
                   <h3 className="font-semibold">{s.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed text-[var(--lp-muted)]">{s.body}</p>
                 </div>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </section>
 
         {/* Features */}
         <section id="features" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
-          <h2 className={`max-w-2xl ${SERIF} text-4xl font-semibold tracking-tight sm:text-5xl`}>Too many options — on purpose.</h2>
+          <Reveal as="h2" className={`max-w-2xl ${SERIF} text-4xl font-semibold tracking-tight sm:text-5xl`}>Too many options — on purpose.</Reveal>
           <p className="mt-4 max-w-2xl text-[var(--lp-muted)]">
             Most builders give you five templates and a colour picker. {PRODUCT_NAME} gives you the parts, so the result looks like you made it.
           </p>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((f) => (
-              <article key={f.title} className="rounded-2xl border border-[var(--lp-line)] bg-[var(--lp-surface)] p-6">
+            {FEATURES.map((f, i) => (
+              <Reveal as="article" key={f.title} delay={(i % 3) * 0.08} className="lp-card rounded-2xl border border-[var(--lp-line)] bg-[var(--lp-surface)] p-6">
                 <f.icon className="size-5 text-[var(--lp-accent)]" />
                 <h3 className="mt-4 font-semibold">{f.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--lp-muted)]">{f.body}</p>
-              </article>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -166,7 +185,7 @@ export default function Landing() {
         {/* Layout showcase */}
         <section id="layouts" className="scroll-mt-20 border-t border-[var(--lp-line)] py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <h2 className={`${SERIF} text-4xl font-semibold tracking-tight sm:text-5xl`}>Start from a layout.</h2>
+            <Reveal as="h2" className={`${SERIF} text-4xl font-semibold tracking-tight sm:text-5xl`}>Start from a layout.</Reveal>
             <p className="mt-4 max-w-2xl text-[var(--lp-muted)]">
               A few of the {LAYOUT_PRESETS.length} ready-made layouts. Each is a starting point — swap any section, theme or footer afterwards.
             </p>
@@ -174,38 +193,40 @@ export default function Landing() {
               {showcase.map((preset, i) => {
                 const theme = THEME_PRESETS[(i * 7) % THEME_PRESETS.length]!;
                 return (
-                  <li key={preset.id} className="overflow-hidden rounded-2xl border border-[var(--lp-line)] bg-[var(--lp-surface)]">
+                  <Reveal as="li" key={preset.id} delay={(i % 3) * 0.08} className="lp-card overflow-hidden rounded-2xl border border-[var(--lp-line)] bg-[var(--lp-surface)]">
                     {/* A tiny abstract "page" in one of the real themes. */}
-                    <div className="relative h-36 p-4" style={{ background: theme.background }} aria-hidden="true">
-                      <div className="h-2 w-16 rounded-full" style={{ background: theme.accent }} />
-                      <div className="mt-4 h-4 w-3/4 rounded" style={{ background: `${theme.accent}55` }} />
-                      <div className="mt-2 h-4 w-1/2 rounded" style={{ background: `${theme.accent}33` }} />
-                      <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2">
-                        {[0, 1, 2].map((n) => (
-                          <div key={n} className="h-8 rounded" style={{ background: `${theme.accentStrong}${n === 0 ? '66' : '2e'}` }} />
-                        ))}
+                    <div className="relative h-36 overflow-hidden" aria-hidden="true">
+                      <div className="lp-zoom relative h-full p-4" style={{ background: theme.background }}>
+                        <div className="h-2 w-16 rounded-full" style={{ background: theme.accent }} />
+                        <div className="mt-4 h-4 w-3/4 rounded" style={{ background: `${theme.accent}55` }} />
+                        <div className="mt-2 h-4 w-1/2 rounded" style={{ background: `${theme.accent}33` }} />
+                        <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2">
+                          {[0, 1, 2].map((n) => (
+                            <div key={n} className="h-8 rounded" style={{ background: `${theme.accentStrong}${n === 0 ? '66' : '2e'}` }} />
+                          ))}
+                        </div>
                       </div>
                     </div>
                     <div className="p-5">
                       <h3 className="font-semibold">{preset.name}</h3>
                       <p className="mt-1 line-clamp-2 text-sm text-[var(--lp-muted)]">{preset.description}</p>
                     </div>
-                  </li>
+                  </Reveal>
                 );
               })}
             </ul>
 
             <div className="mt-14">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--lp-muted)]">{THEME_PRESETS.length} themes to start from</h3>
-              <ul className="mt-4 flex flex-wrap gap-2">
+              <Marquee className="mt-4 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]" seconds={70}>
                 {THEME_PRESETS.slice(0, 40).map((t) => (
-                  <li key={t.id} title={t.name} className="flex items-center gap-2 rounded-full border border-[var(--lp-line)] bg-[var(--lp-surface)] py-1 pl-1 pr-3 text-xs">
+                  <span key={t.id} title={t.name} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-[var(--lp-line)] bg-[var(--lp-surface)] py-1 pl-1 pr-3 text-xs">
                     <span className="size-5 rounded-full border border-black/10" style={{ background: `linear-gradient(135deg, ${t.background} 50%, ${t.accent} 50%)` }} />
                     {t.name}
-                  </li>
+                  </span>
                 ))}
-                <li className="rounded-full px-3 py-1 text-xs text-[var(--lp-muted)]">+ {THEME_PRESETS.length - 40} more</li>
-              </ul>
+              </Marquee>
+              <p className="mt-3 text-xs text-[var(--lp-muted)]">+ {THEME_PRESETS.length - 40} more</p>
             </div>
           </div>
         </section>
@@ -213,14 +234,18 @@ export default function Landing() {
         {/* Pricing */}
         <section id="pricing" className="scroll-mt-20 border-t border-[var(--lp-line)] bg-[var(--lp-surface)] py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <h2 className={`text-center ${SERIF} text-4xl font-semibold tracking-tight sm:text-5xl`}>Simple pricing.</h2>
+            <Reveal as="h2" className={`text-center ${SERIF} text-4xl font-semibold tracking-tight sm:text-5xl`}>Simple pricing.</Reveal>
             <p className="mx-auto mt-4 max-w-xl text-center text-[var(--lp-muted)]">Start with a free 30-day trial — no card needed. Then keep going monthly or yearly.</p>
 
             {plansLoading && <p className="mt-12 text-center text-sm text-[var(--lp-muted)]">Loading plans…</p>}
             {plansError && <p className="mt-12 text-center text-sm text-red-700">Couldn't load plans. Is the API running?</p>}
             {plans && (
               <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-3">
-                {plans.map((plan) => <PlanCard key={plan.id} plan={plan} signedIn={Boolean(user)} />)}
+                {plans.map((plan, i) => (
+                  <Reveal key={plan.id} delay={i * 0.1}>
+                    <PlanCard plan={plan} signedIn={Boolean(user)} />
+                  </Reveal>
+                ))}
               </div>
             )}
             <p className="mt-8 text-center text-xs text-[var(--lp-muted)]">Demo checkout — no real payment is taken.</p>
@@ -248,7 +273,7 @@ function PlanCard({ plan, signedIn }: { plan: Plan; signedIn: boolean }) {
   return (
     <article
       className={cn(
-        'flex flex-col rounded-2xl border p-6',
+        'lp-card flex h-full flex-col rounded-2xl border p-6',
         plan.highlighted ? 'border-[var(--lp-ink)] bg-[var(--lp-ink)] text-[var(--lp-bg)]' : 'border-[var(--lp-line)] bg-[var(--lp-bg)]'
       )}
     >
@@ -281,7 +306,7 @@ function PlanCard({ plan, signedIn }: { plan: Plan; signedIn: boolean }) {
         <Link
           to={`/subscribe?plan=${plan.id}`}
           className={cn(
-            'mt-8 rounded-full px-4 py-2.5 text-center text-sm font-semibold hover:opacity-90',
+            'lp-btn mt-8 rounded-full px-4 py-2.5 text-center text-sm font-semibold',
             plan.highlighted ? 'bg-[var(--lp-accent)] text-[var(--lp-accent-ink)]' : 'bg-[var(--lp-ink)] text-[var(--lp-bg)]'
           )}
         >
